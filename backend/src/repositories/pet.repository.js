@@ -1,50 +1,61 @@
-const {Pet} = require('../models/base')
+const { Pet } = require('../models/base/infoPetSchema');
 
-class PetRepository{
-    async Add(petData){ // Add a new pet to the database
-        try{
+class PetRepository {
+    async add(petData) {
+        try {
             const pet = new Pet({
                 after_image: petData.after_image,
-                before_image: petData.beforeImage,
+                before_image: petData.before_image,
                 pet_name: petData.pet_name,
                 age: petData.age,
                 weight: petData.weight,
-                status: petData.status || [],
-                pet_type: petData.pet_type || [],
-                sex: petData.sex || [],
+                status: petData.status,
+                pet_type: petData.pet_type,
+                sex: petData.sex,
                 arrival_date: petData.arrival_date,
                 location: petData.location,
                 vaccinated: petData.vaccinated,
-                personality: petData.personality || [],
-                about_pet: petData.personality
+                personality: petData.personality,
+                about_pet: petData.about_pet
             });
 
             return await pet.save();
-        }catch(error){
-           throw new Error(`Failed to add pet data: ${error.message}`);
-        }
-    }
-    async findPetByID(id){ // Find a pet by its ID
-        try{
-            return await Pet.findOne(id);
-        }catch(error){
-            throw new Error(`Failed to find pet: ${error.message}`)
-        }
-    }
-    async findAllPetByStatus(){ // Get all pets with status 'available' or 'pending'
-        try{
-            return await Pet.find({status: {$in: ['available', 'pending']}})
-        }catch(error){
-            throw new Error(`Failed to fetch ${error.message}`)
+        } catch (error) {
+            throw new Error(`Failed to add pet: ${error.message}`);
         }
     }
 
-    async findAllPetByType(){ // Get all pets of type 'dog' or 'cat'
-        try{
-            return await Pet.find({pet_type: {$in: ['dog', 'cat']}})
-        }catch(error){
-            throw new Error(`Failed to find their status ${error.message}`)
+    async findById(id) {
+        try {
+            return await Pet.findById(id);
+        } catch (error) {
+            throw new Error(`Failed to find pet by ID: ${error.message}`);
+        }
+    }
+
+    async findAll(filter = {}) {
+        try {
+            return await Pet.find(filter);
+        } catch (error) {
+            throw new Error(`Failed to find pets: ${error.message}`);
+        }
+    }
+
+    async updateById(id, updateData) {
+        try {
+            return await Pet.findByIdAndUpdate(id, { $set: updateData }, { new: true });
+        } catch (error) {
+            throw new Error(`Failed to update pet: ${error.message}`);
+        }
+    }
+
+    async deleteById(id) {
+        try {
+            return await Pet.findByIdAndDelete(id);
+        } catch (error) {
+            throw new Error(`Failed to delete pet: ${error.message}`);
         }
     }
 }
+
 module.exports = new PetRepository();
