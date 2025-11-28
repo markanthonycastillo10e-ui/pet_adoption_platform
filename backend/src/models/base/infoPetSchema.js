@@ -9,7 +9,7 @@ function createInfoPetSchema() {
     status: {
       type: String,
       enum: ["available", "pending"],
-      default: "available"
+      required: true
     },
     pet_type: {
       type: String,
@@ -37,7 +37,8 @@ function createInfoPetSchema() {
         "Affectionate",
         "Protective",
         "Curious"
-      ]
+      ],
+      required: true
     },
     about_pet: { type: String, required: true }
   });
