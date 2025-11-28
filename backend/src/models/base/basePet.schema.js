@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-export function createPetSchema() {
+function createPetSchema() {
+  //Create Schema for backend using mongoose
   return new mongoose.Schema({
-    afterImage: { type: String, required: true },
-    beforeImage: { type: String, required: true },
-    petname: { type: String, required: true },
+    after_image: { type: String, required: true },
+    before_image: { type: String, required: true },
+    pet_name: { type: String, required: true },
     age: { type: Number, required: true },
     weight: { type: Number, required: true },
     created_at: { type: Date, default: Date.now }
   });
 }
+module.exports = {createPetSchema};

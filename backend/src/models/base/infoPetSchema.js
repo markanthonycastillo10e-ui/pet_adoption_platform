@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
-import { createPetSchema } from "./basePet.schema.js";
+const mongoose = require("mongoose");
+const { createPetSchema } = require("./basePet.schema.js");
 
-export function createInfoPetSchema() {
+function createInfoPetSchema() {
+  //Add Another schema but separated files 
   const baseSchema = createPetSchema(); 
   return new mongoose.Schema({
     ...baseSchema.obj,
@@ -41,3 +42,9 @@ export function createInfoPetSchema() {
     about_pet: { type: String, required: true }
   });
 }
+
+const Pet = mongoose.model('Pet', createInfoPetSchema);
+
+module.exports = {
+  Pet
+};
