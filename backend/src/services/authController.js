@@ -1,4 +1,6 @@
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const adopterRepository = require('../repositories/adopterRepository');
 const volunteerRepository = require('../repositories/volunteerRepository');
 const staffRepository = require('../repositories/staffRepository');
@@ -13,6 +15,48 @@ const findUserByEmail = async (email) => {
     }
     return { user: null, repo: null };
 };
+
+async function handleLogin(req, res) {
+    try {
+        const { email, password, userType } = req.body;
+
+        // Hanapin ang user base sa email at userType
+        let user;
+        if (userType === 'adopter') user = await adopterRepository.findByEmail(email);
+        else if (userType === 'volunteer') user = await volunteerRepository.findByEmail(email);
+        else if (userType === 'staff') user = await staffRepository.findByEmail(email);
+        else return res.status(400).json({ message: 'Invalid user type specified.' });
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials.' });
+        }
+
+        // Ikumpara ang password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials.' });
+        }
+
+        // Gumawa ng JWT
+        const userPayload = {
+            id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            phone: user.phone,
+            role: user.role, // Isama ang role para sa authorization
+            userType: userType,
+            created_at: user.created_at
+        };
+
+        const token = jwt.sign({ id: user._id, userType: userType, role: user.role }, process.env.JWT_SECRET || 'your_default_secret', { expiresIn: '1h' });
+
+        res.json({ message: 'Login successful!', token, user: userPayload });
+    } catch (error) {
+        console.error('Login Error:', error);
+        res.status(500).json({ message: 'An internal error occurred.' });
+    }
+}
 
 async function handleRegistration(req, res, repository) {
     try {
@@ -103,6 +147,7 @@ async function handleResetPassword(req, res) {
 
 module.exports = {
     handleRegistration,
+    handleLogin,
     handleForgotPassword,
     handleResetPassword
 };

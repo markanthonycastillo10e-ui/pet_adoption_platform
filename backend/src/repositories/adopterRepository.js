@@ -20,6 +20,11 @@ class AdopterRepository {
 
             return await adopter.save();
         } catch (error) {
+            // Handle MongoDB duplicate key error
+            if (error.code === 11000) {
+                const field = Object.keys(error.keyPattern)[0];
+                throw new Error(`${field.charAt(0).toUpperCase() + field.slice(1)} already exists`);
+            }
             throw new Error(`Failed to create adopter: ${error.message}`);
         }
     }
@@ -37,6 +42,14 @@ class AdopterRepository {
             return await Adopter.findById(id);
         } catch (error) {
             throw new Error(`Failed to find adopter by ID: ${error.message}`);
+        }
+    }
+
+    async findAll(filter = {}) {
+        try {
+            return await Adopter.find(filter);
+        } catch (error) {
+            throw new Error(`Failed to find adopters: ${error.message}`);
         }
     }
 

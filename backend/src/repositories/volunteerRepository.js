@@ -19,6 +19,11 @@ class VolunteerRepository {
 
             return await volunteer.save();
         } catch (error) {
+            // Handle MongoDB duplicate key error
+            if (error.code === 11000) {
+                const field = Object.keys(error.keyPattern)[0];
+                throw new Error(`${field.charAt(0).toUpperCase() + field.slice(1)} already exists`);
+            }
             throw new Error(`Failed to create volunteer: ${error.message}`);
         }
     }
@@ -36,6 +41,14 @@ class VolunteerRepository {
             return await Volunteer.findById(id);
         } catch (error) {
             throw new Error(`Failed to find volunteer by ID: ${error.message}`);
+        }
+    }
+
+    async findAll(filter = {}) {
+        try {
+            return await Volunteer.find(filter);
+        } catch (error) {
+            throw new Error(`Failed to find volunteers: ${error.message}`);
         }
     }
 

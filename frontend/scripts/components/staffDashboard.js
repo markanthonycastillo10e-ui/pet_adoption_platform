@@ -1,20 +1,18 @@
-import AuthService from '../services/authService.js';
-import { Staff } from '../../../backend/src/models/index.js';
+import { initializePage } from '../utils/dashboardUtils.js';
 
-class staffDashboard{
-    constructor(){
-      this.user = []; //Here's the container of data user
-      this.init();
-    }
-    async init(){
-      const auth = new AuthService();
-      //Check the user if correct 
-      if(!auth.AuthService){
-         windows.location.href = ''
-      }
-    }
-    //access the renderHTML for dashboard staff
-    renderDashboard(user){
+initializePage(user => {
+    // Ito ang page-specific logic para sa Staff Dashboard
+    console.log('Staff Dashboard initialized for:', user);
+    renderDashboard(user);
+});
 
-    }
+function renderDashboard(user) {
+    // Dito mo ilalagay ang code para i-populate ang dashboard ng staff.
+    // Halimbawa, pag-update ng welcome message o pag-display ng listahan ng tasks.
+    
+    // Example:
+    // const welcomeEl = document.getElementById('staffWelcomeMessage');
+    // if (welcomeEl) {
+    //     welcomeEl.textContent = `Welcome, Coordinator ${user.first_name}!`;
+    // }
 }

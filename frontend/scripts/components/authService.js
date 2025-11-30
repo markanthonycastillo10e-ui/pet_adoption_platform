@@ -53,6 +53,40 @@ class AuthService {
 
         return response.json();
     }
+    
+    /**
+     * Login method: calls backend, stores token and currentUser in localStorage
+     * @param {string} email
+     * @param {string} password
+     * @param {string} userType - 'adopter'|'volunteer'|'staff'
+     */
+    async login(email, password, userType = 'adopter') {
+        const res = await fetch(`${this.baseUrl}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, userType })
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.message || 'Login failed');
+        }
+
+        const data = await res.json();
+
+        if (data.token) {
+            this.setToken(data.token);
+        }
+
+        if (data.user) {
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
+        }
+
+        // also store userType for convenience
+        localStorage.setItem('userType', userType);
+
+        return data;
+    }
 }
 
 export default new AuthService();
