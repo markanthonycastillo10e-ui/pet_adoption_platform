@@ -9,7 +9,7 @@
 
 </head>
 
-<body class="bg-light">
+<body class="bg-light" data-required-role="staff">
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg staff-navbar-gradient navbar-dark">
     <div class="container">
@@ -44,8 +44,8 @@
             <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="staff-profile-img me-2" />
               <div class="text-white small lh-1">
-                <div id="staffNavbarName">Staff Name</div>
-                <div id="staffNavbarRole">Staff Role</div>
+                <div id="staffNavbarName"></div>
+                <div id="staffNavbarRole"></div>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
@@ -213,7 +213,7 @@
   <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- JavaScript for staff messages -->
-  <script src="/frontend/js/staff/messages/#"></script>
-   <script src="/frontend/js/staff/user-info/user-info.js"></script>
+  <script src="/frontend/js/auth/auth.js"></script>
+  <!-- <script src="/frontend/js/staff/messages/#"></script> -->
 </body>
 </html>

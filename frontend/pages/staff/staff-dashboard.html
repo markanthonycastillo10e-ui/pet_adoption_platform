@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/frontend/css/base/general.css">
 </head>
-<body class="bg-light">
+<body class="bg-light" data-required-role="staff">
 
   <!-- Header with navigation -->
   <nav class="navbar navbar-expand-lg staff-navbar-gradient navbar-dark">
@@ -43,8 +43,8 @@
             <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="staff-profile-img me-2" />
               <div class="text-white small lh-1">
-                <div id="staffNavbarName">Staff Name</div>
-                <div id="staffNavbarRole">Staff Role</div>
+                <div id="staffNavbarName"></div>
+                <div id="staffNavbarRole"></div>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
@@ -144,6 +144,7 @@
   </main>
   <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="../../scripts/app.js"></script>
+  <script src="/frontend/js/auth/auth.js"></script>
   <script type="module" src="../../scripts/utils/staffDashboardInit.js"></script>
 
 </body>
