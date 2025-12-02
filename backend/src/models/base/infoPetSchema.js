@@ -7,24 +7,28 @@ function createInfoPetSchema() {
     ...baseSchema.obj,
     status: {
       type: String,
-      enum: ["available", "pending"],
+      enum: ["available", "pending", "medical", "adopted"],
       required: true
     },
     pet_type: {
       type: String,
-      enum: ["dog", "cat"],
+      enum: ["Dog", "Cat", "dog", "cat"],
       required: true
     },
     sex: {
       type: String,
-      enum: ["female", "male"],
+      enum: ["Female", "Male", "female", "male"],
       required: true
     },
-    arrival_date: { type: Date, required: true },
+    arrival_date: { 
+      type: Date, 
+      required: true,
+      get: (v) => v ? new Date(v) : v
+    },
     location: { type: String, required: true },
     vaccinated: { type: Boolean, default: false },
     personality: {
-      type: String,
+      type: [String],
       enum: [
         "Friendly",
         "Energetic",
@@ -35,9 +39,19 @@ function createInfoPetSchema() {
         "Independent",
         "Affectionate",
         "Protective",
-        "Curious"
+        "Curious",
+        "friendly",
+        "energetic",
+        "calm",
+        "playful",
+        "shy",
+        "loyal",
+        "independent",
+        "affectionate",
+        "protective",
+        "curious"
       ],
-      required: true
+      default: []
     },
     about_pet: { type: String, required: true }
   });

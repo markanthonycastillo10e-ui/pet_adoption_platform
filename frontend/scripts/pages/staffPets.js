@@ -1,8 +1,10 @@
 import { getPets, createPet, updatePet, deletePet } from '../utils/staffPetsApi.js';
 
-// Hold base64 image data for create/update
+// Hold base64 image data and filenames for create/update
 let beforeImageData = null;
 let afterImageData = null;
+let beforeImageName = null;
+let afterImageName = null;
 
 function createCard(pet) {
   const col = document.createElement('div');
@@ -71,8 +73,24 @@ function attachViewHandlers() {
 }
 
 function readAddForm() {
+  const personality = Array.from(document.querySelectorAll('.staff-pet-tag.selected')).map(el => el.dataset.trait || el.textContent.trim());
+  
+  // Basic validation
+  const petName = document.getElementById('petName').value.trim();
+  const beforeImage = beforeImageData;
+  
+  if (!petName) {
+    throw new Error('Pet name is required');
+  }
+  if (!beforeImage) {
+    throw new Error('Before image is required');
+  }
+  if (personality.length === 0) {
+    throw new Error('At least one personality trait must be selected');
+  }
+  
   return {
-    pet_name: document.getElementById('petName').value,
+    pet_name: petName,
     pet_type: document.getElementById('petType').value,
     sex: document.getElementById('petSex').value,
     age: document.getElementById('petAge').value,
@@ -83,7 +101,7 @@ function readAddForm() {
     status: document.getElementById('petStatus').value,
     before_image: beforeImageData,
     after_image: afterImageData,
-    personality: Array.from(document.querySelectorAll('.staff-pet-tag.selected')).map(el => el.dataset.trait || el.textContent.trim())
+    personality: personality
   };
 }
 
@@ -102,11 +120,14 @@ async function setupAddPet() {
         // clear form
         document.getElementById('addPetForm').reset();
         // clear previews and stored images
-        beforeImageData = null; afterImageData = null;
-        const beforePreview = document.getElementById('beforeImagePreview');
-        const afterPreview = document.getElementById('afterImagePreview');
-        if (beforePreview) beforePreview.src = '/frontend/assets/image/photo/BoyIcon.jpg';
-        if (afterPreview) afterPreview.src = '/frontend/assets/image/photo/BoyIcon.jpg';
+        beforeImageData = null; 
+        afterImageData = null;
+        beforeImageName = null;
+        afterImageName = null;
+        const beforeBtn = document.getElementById('beforeImageBtn');
+        const afterBtn = document.getElementById('afterImageBtn');
+        if (beforeBtn) beforeBtn.textContent = 'Upload Before Image';
+        if (afterBtn) afterBtn.textContent = 'Upload After Image';
         // clear selected personality tags
         document.querySelectorAll('.staff-pet-tag.selected').forEach(t => t.classList.remove('selected'));
         await loadPets();
@@ -130,26 +151,42 @@ document.addEventListener('DOMContentLoaded', () => {
     beforeInput.addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0];
       if (!file) {
-        beforeImageData = null; return;
+        beforeImageData = null; 
+        beforeImageName = null;
+        const beforeBtn = document.getElementById('beforeImageBtn');
+        if (beforeBtn) beforeBtn.textContent = 'Upload Before Image';
+        return;
       }
+      beforeImageName = file.name;
       const reader = new FileReader();
       reader.onload = () => {
         beforeImageData = reader.result; // data URL
-        if (beforePreview) beforePreview.src = beforeImageData;
       };
       reader.readAsDataURL(file);
+      // Show filename on button
+      const beforeBtn = document.getElementById('beforeImageBtn');
+      if (beforeBtn) beforeBtn.textContent = `✓ ${file.name}`;
     });
   }
   if (afterInput) {
     afterInput.addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0];
-      if (!file) { afterImageData = null; return; }
+      if (!file) { 
+        afterImageData = null; 
+        afterImageName = null;
+        const afterBtn = document.getElementById('afterImageBtn');
+        if (afterBtn) afterBtn.textContent = 'Upload After Image';
+        return; 
+      }
+      afterImageName = file.name;
       const reader = new FileReader();
       reader.onload = () => {
         afterImageData = reader.result;
-        if (afterPreview) afterPreview.src = afterImageData;
       };
       reader.readAsDataURL(file);
+      // Show filename on button
+      const afterBtn = document.getElementById('afterImageBtn');
+      if (afterBtn) afterBtn.textContent = `✓ ${file.name}`;
     });
   }
 
