@@ -11,14 +11,16 @@ function createCard(pet) {
   col.className = 'col-md-6 col-lg-4';
   col.innerHTML = `
     <div class="staff-pet-card" data-pet-id="${pet._id}" data-pet-type="${pet.pet_type}" data-pet-status="${pet.status}">
-      <img src="${pet.before_image || '/frontend/assets/image/photo/BoyIcon.jpg'}" alt="${pet.pet_name}" class="staff-pet-card-img">
+      <img src="${pet.before_image || '../../assets/image/photo/BoyIcon.jpg'}" alt="${pet.pet_name}" class="staff-pet-card-img">
       <div class="staff-pet-card-body">
         <div class="staff-pet-card-name">${pet.pet_name}</div>
         <div class="staff-pet-card-details">${pet.age || 'N/A'} - ${pet.sex || ''}</div>
         <div class="staff-pet-card-location">${pet.location || ''}</div>
         <div class="staff-pet-card-location">Arrived ${pet.arrival_date || ''}</div>
-        <div class="mt-3">
-          <button class="btn staff-pet-btn btn-sm w-100 viewPetBtn" data-pet-id="${pet._id}">View Details</button>
+        <div class="mt-3 d-flex gap-2">
+          <button class="btn staff-pet-btn btn-sm flex-grow-1 viewPetBtn" data-pet-id="${pet._id}">View</button>
+          <button class="btn staff-pet-secondary-btn btn-sm updatePetBtn" data-pet-id="${pet._id}">Update</button>
+          <button class="btn btn-outline-danger btn-sm deletePetBtn" data-pet-id="${pet._id}">Delete</button>
         </div>
       </div>
     </div>`;
@@ -35,7 +37,7 @@ async function loadPets() {
     pets.forEach(p => grid.appendChild(createCard(p)));
 
     updateStats(pets);
-    attachViewHandlers();
+    attachActionHandlers();
   } catch (err) {
     console.error('Failed to load pets', err);
   }
@@ -55,18 +57,35 @@ function updateStats(pets) {
   document.getElementById('adoptedPets').textContent = adopted;
 }
 
-function attachViewHandlers() {
+function attachActionHandlers() {
   document.querySelectorAll('.viewPetBtn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-      const id = btn.dataset.petId;
-      try {
-        const res = await getPets(); // simple: reload full list and find id
-        const pet = (res.pets || []).find(x => x._id === id);
-        if (!pet) return alert('Pet not found');
-        // show a quick details modal or alert for now
-        alert(`${pet.pet_name}\nStatus: ${pet.status}\nType: ${pet.pet_type}\nLocation: ${pet.location}`);
-      } catch (err) {
-        console.error(err);
+      const petId = e.currentTarget.dataset.petId;
+      window.location.href = `/frontend/pages/staff/pets-page/staff-view-details.html?id=${petId}`;
+    });
+  });
+
+  document.querySelectorAll('.updatePetBtn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.dataset.petId;
+      // For now, this will show an alert. A full implementation
+      // would open a modal pre-filled with this pet's data.
+      alert(`Update functionality for pet ID: ${id} is not yet fully implemented.`);
+      console.log(`Trigger update for pet ${id}`);
+    });
+  });
+
+  document.querySelectorAll('.deletePetBtn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const id = e.target.dataset.petId;
+      if (confirm('Are you sure you want to delete this pet? This action cannot be undone.')) {
+        try {
+          await deletePet(id);
+          await loadPets(); // Reload the list to reflect the deletion
+        } catch (err) {
+          console.error(`Failed to delete pet ${id}`, err);
+          alert(`Error: ${err.message}`);
+        }
       }
     });
   });
@@ -74,31 +93,43 @@ function attachViewHandlers() {
 
 function readAddForm() {
   const personality = Array.from(document.querySelectorAll('.staff-pet-tag.selected')).map(el => el.dataset.trait || el.textContent.trim());
-  
+
   // Basic validation
   const petName = document.getElementById('petName').value.trim();
   const beforeImage = beforeImageData;
-  
-  if (!petName) {
-    throw new Error('Pet name is required');
-  }
-  if (!beforeImage) {
-    throw new Error('Before image is required');
-  }
-  if (personality.length === 0) {
-    throw new Error('At least one personality trait must be selected');
-  }
-  
+  const petWeight = document.getElementById('petWeight').value;
+  const arrivalDate = document.getElementById('petArrivalDate').value;
+  const location = document.getElementById('petLocation').value.trim();
+  const about = document.getElementById('petDescription').value.trim();
+
+  if (!petName) throw new Error('Pet name is required');
+  if (!beforeImage) throw new Error('Before image is required');
+  if (!petWeight) throw new Error('Pet weight is required');
+  if (!arrivalDate) throw new Error('Arrival date is required');
+  if (!location) throw new Error('Location is required');
+  if (!about) throw new Error('About / description is required');
+  if (personality.length === 0) throw new Error('At least one personality trait must be selected');
+
+  // Normalize values to match backend enums (lowercase status/type/sex)
+  const rawType = document.getElementById('petType').value || '';
+  const rawSex = document.getElementById('petSex').value || '';
+  const rawStatus = document.getElementById('petStatus').value || '';
+
+  const pet_type = String(rawType).toLowerCase();
+  const sex = String(rawSex).toLowerCase();
+  const status = String(rawStatus).toLowerCase();
+
   return {
     pet_name: petName,
-    pet_type: document.getElementById('petType').value,
-    sex: document.getElementById('petSex').value,
+    pet_type,
+    sex,
     age: document.getElementById('petAge').value,
-    arrival_date: document.getElementById('petArrivalDate').value,
-    location: document.getElementById('petLocation').value,
+    weight: petWeight,
+    arrival_date: arrivalDate,
+    location,
     vaccinated: !!document.getElementById('petVaccinated').checked,
-    about_pet: document.getElementById('petDescription').value,
-    status: document.getElementById('petStatus').value,
+    about_pet: about,
+    status,
     before_image: beforeImageData,
     after_image: afterImageData,
     personality: personality
@@ -220,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.innerHTML = '';
       pets.forEach(p => grid.appendChild(createCard(p)));
       updateStats(pets);
-      attachViewHandlers();
+      attachActionHandlers();
     } catch (err) {
       console.error(err);
     }
