@@ -269,3 +269,12 @@ img.custom-img {
         margin-bottom: 1.5rem;
     }
 }
+
+/*UI AND UX FOR adopter-favorites*/
+.pet-card-img {
+    height: 230px;
+    object-fit: cover;
+    width: 100%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
