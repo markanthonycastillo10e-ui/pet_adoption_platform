@@ -1,3 +1,5 @@
+import { Validate } from "../helper/validateHelper";
+
 export class VolunteerSignUp {
   constructor() {
     this.msgEl = null;
@@ -48,49 +50,23 @@ export class VolunteerSignUp {
   }
 
   validatePayload(payload) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^09\d{9}$/;
+    const validate = new Validate();
+    validate.msgEl = this.msgEl;
 
-    if (!payload.first_name?.trim() || !payload.last_name?.trim()) {
-      this.showMessage('Please enter your full name.', 'danger');
-      return false;
-    }
-
-    if (!emailRegex.test(payload.email)) {
-      this.showMessage('Please enter a valid email address.', 'danger');
-      return false;
-    }
-
-    if (!payload.password || payload.password.length < 6) {
-      this.showMessage('Password must be at least 6 characters.', 'danger');
-      return false;
-    }
-
-    if (!phoneRegex.test(payload.phone)) {
-      this.showMessage('Phone number must start with 09 and have exactly 11 digits.', 'danger');
+    // First, run the common validations from the helper.
+    if (!validate.validatePayload(payload)) {
       return false;
     }
 
     // Validate availability (at least one selection)
     if (payload.availability.length === 0) {
-      this.showMessage('Please select at least one availability option.', 'danger');
+      validate.showMessage('Please select at least one availability option.', 'danger');
       return false;
     }
-
+    
     // Validate activities (at least one selection)
     if (payload.interested_activities.length === 0) {
-      this.showMessage('Please select at least one interested activity.', 'danger');
-      return false;
-    }
-
-    // Check required consents
-    const requiredConsents = ['agreed_terms', 'consent_background_check'];
-    const missingConsents = requiredConsents.filter(consent => 
-      !payload.consents.includes(consent)
-    );
-
-    if (missingConsents.length > 0) {
-      this.showMessage('Please agree to the Terms of Service and Background Check consent.', 'danger');
+      validate.showMessage('Please select at least one interested activity.', 'danger');
       return false;
     }
 
@@ -98,6 +74,9 @@ export class VolunteerSignUp {
   }
 
   async submitToBackend(payload, form) {
+    const messenger = new Validate();
+    messenger.msgEl = this.msgEl;
+
     try {
       const response = await fetch('http://localhost:3000/api/auth/register/volunteer', {
         method: 'POST',
@@ -110,7 +89,7 @@ export class VolunteerSignUp {
       const result = await response.json();
 
       if (response.ok) {
-        this.showMessage(result.message || 'Volunteer registration successful!', 'success');
+        messenger.showMessage(result.message || 'Volunteer registration successful!', 'success');
         form.reset();
         
         // Redirect to login after successful registration
@@ -118,27 +97,11 @@ export class VolunteerSignUp {
           window.location.href = 'login-form.html';
         }, 2000);
       } else {
-        this.showMessage(result.message || result.error || 'Volunteer registration failed.', 'danger');
+        messenger.showMessage(result.message || result.error || 'Volunteer registration failed.', 'danger');
       }
     } catch (error) {
       console.error('Volunteer registration error:', error);
-      this.showMessage('Unable to connect to server. Please try again later.', 'danger');
-    }
-  }
-
-  showMessage(text, type) {
-    if (!this.msgEl) return;
-
-    this.msgEl.textContent = text;
-    this.msgEl.className = `alert alert-${type} mt-3`;
-    this.msgEl.setAttribute('role', 'alert');
-
-    // Auto-hide success messages after 5 seconds
-    if (type === 'success') {
-      setTimeout(() => {
-        this.msgEl.textContent = '';
-        this.msgEl.className = '';
-      }, 5000);
+      messenger.showMessage('Unable to connect to server. Please try again later.', 'danger');
     }
   }
 }

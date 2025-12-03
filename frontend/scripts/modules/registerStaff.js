@@ -1,3 +1,6 @@
+import { valid } from "joi";
+import { Validate } from "../helper/validateHelper";
+import { validate } from "@babel/types";
 export class RegisterStaff {
   constructor() {
     this.msgEl = null;
@@ -46,26 +49,11 @@ export class RegisterStaff {
   }
 
   validatePayload(payload) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^09\d{9}$/;
+    const validate = new Validate();
+    validate.msgEl = this.msgEl;
 
-    if (!payload.first_name?.trim() || !payload.last_name?.trim()) {
-      this.showMessage('Please enter your full name.', 'danger');
-      return false;
-    }
-
-    if (!emailRegex.test(payload.email)) {
-      this.showMessage('Please enter a valid email address.', 'danger');
-      return false;
-    }
-
-    if (!payload.password || payload.password.length < 6) {
-      this.showMessage('Password must be at least 6 characters.', 'danger');
-      return false;
-    }
-
-    if (!phoneRegex.test(payload.phone)) {
-      this.showMessage('Phone number must start with 09 and have exactly 11 digits.', 'danger');
+    // First, run the common validations from the helper.
+    if (!validate.validatePayload(payload)) {
       return false;
     }
 
@@ -74,9 +62,10 @@ export class RegisterStaff {
     const missingConsents = requiredConsents.filter(consent => 
       !payload.consents.includes(consent)
     );
-
+    
     if (missingConsents.length > 0) {
-      this.showMessage('Please agree to the Terms of Service and Background Check consent.', 'danger');
+      // Use the helper instance to show the message
+      validate.showMessage('You must agree to the Terms of Service and consent to a background check.', 'danger');
       return false;
     }
 
@@ -84,6 +73,8 @@ export class RegisterStaff {
   }
 
   async submitToBackend(payload, form) {
+    const messenger = new Validate();
+    messenger.msgEl = this.msgEl;
     try {
       const response = await fetch('http://localhost:3000/api/auth/register/staff', {
         method: 'POST',
@@ -96,7 +87,7 @@ export class RegisterStaff {
       const result = await response.json();
 
       if (response.ok) {
-        this.showMessage(result.message || 'Staff registration successful!', 'success');
+        messenger.showMessage(result.message || 'Staff registration successful!', 'success');
         form.reset();
         
         // Redirect to login after successful registration
@@ -104,27 +95,13 @@ export class RegisterStaff {
           window.location.href = 'login-form.html';
         }, 2000);
       } else {
-        this.showMessage(result.message || result.error || 'Staff registration failed.', 'danger');
+        messenger.showMessage(result.message || result.error || 'Staff registration failed.', 'danger');
       }
     } catch (error) {
       console.error('Staff registration error:', error);
-      this.showMessage('Unable to connect to server. Please try again later.', 'danger');
+        messenger.showMessage('Unable to connect to server. Please try again later.', 'danger');
     }
   }
 
-  showMessage(text, type) {
-    if (!this.msgEl) return;
 
-    this.msgEl.textContent = text;
-    this.msgEl.className = `alert alert-${type} mt-3`;
-    this.msgEl.setAttribute('role', 'alert');
-
-    // Auto-hide success messages after 5 seconds
-    if (type === 'success') {
-      setTimeout(() => {
-        this.msgEl.textContent = '';
-        this.msgEl.className = '';
-      }, 5000);
-    }
-  }
 }

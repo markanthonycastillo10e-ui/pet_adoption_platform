@@ -26,17 +26,6 @@ export class Validate{
       return false;
     }
 
-    // Check required consents
-    const requiredConsents = ['agreed_terms', 'consents_background_check'];
-    const missingConsents = requiredConsents.filter(consent => 
-      !payload.consents.includes(consent)
-    );
-
-    if (missingConsents.length > 0) {
-      this.showMessage('Please agree to the Terms of Service and Background Check consent.', 'danger');
-      return false;
-    }
-
     return true;
   }
     showMessage(text, type) {

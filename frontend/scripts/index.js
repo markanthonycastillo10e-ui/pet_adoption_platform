@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Select all elements you want to animate
-  const elementsToAnimate = document.querySelectorAll('.card, #stats .col-12, #home #info-text, #home .image-wrapper, #contact .row, .py-5.justify-content-center .row, .cta-btn');
+  const elementsToAnimate = document.querySelectorAll('.card, #stats .col-12, #home #info-text, #home .image-wrapper, #contact .row, .py-5.justify-content-center .row, #contact .btn');
   elementsToAnimate.forEach(el => {
     el.classList.add('reveal'); // Add initial class for styling
     observer.observe(el);
