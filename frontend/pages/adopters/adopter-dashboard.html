@@ -15,38 +15,32 @@
 <nav class="navbar navbar-expand-lg adopter-navbar" style="background-color: #F39C12;">
   <div class="container">
     <a class="navbar-brand fw-bold text-white" href="#">🐾 Dashboard</a>
-
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adopterNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="adopterNav">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item"><a class="nav-link text-white" href="adopter-dashboard.html">Dashboard</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="adopter-pet.html">Browse Pets</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="#">Messages</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">My Applications</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-application.html">My Applications</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-favorite.html">Favorites</a></li>
 
-        <!-- Notification -->
         <li class="nav-item mx-3 position-relative">
           <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
         </li>
-
-        <!-- Profile Dropdown (Clean version, no arrow) -->
         <li class="nav-item dropdown">
           <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/image/photo/adopt-me.jpg" alt="profile" class="rounded-circle me-2" width="35" height="35">
+            <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2 profile-image" width="35" height="35">
             <div class="lh-1">
-              <div class="fw-bold text-white">Dazzjin Lee</div>
-              <div class="text-light small">Pet Adopter</div>
+              <div class="fw-bold text-white" id="navbarUserName"></div>
+              <div class="text-light small" id="navbarUserRole"></div>
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="profileDropdown">
             <li class="dropdown-header">
-              <strong>Dazzjin Lee</strong><br>
-              <small class="text-muted">Pet Adopter</small>
+              <strong id="dropdownUserName"></strong><br>
+              <small class="text-muted" id="dropdownUserRole"></small>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="adopter-profile.html">Profile</a></li>
@@ -58,6 +52,7 @@
     </div>
   </div>
 </nav>
+
 
 
 
@@ -134,9 +129,9 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="module" src="../../scripts/app.js"></script>
+  </div>  
+  <script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/frontend/js/auth/auth.js"></script>
+<script type="module" src="/frontend/scripts/pages/adopterApplications.js"></script>
 </body>
 </html>

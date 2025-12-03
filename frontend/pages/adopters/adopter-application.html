@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Applications</title>
+
+  <!-- BOOTSTRAP -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
+
+  <!-- GENERAL CSS -->
+  <link rel="stylesheet" href="../../css/base/general.css">
+
+  <!-- ANIMATIONS CSS -->
+  <link rel="stylesheet" href="../../css/base/animations.css">
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-light" data-required-role="adopter">
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-expand-lg adopter-navbar" style="background-color: #F39C12;">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-white" href="#">🐾 Dashboard</a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adopterNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="adopterNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-pet.html">Browse Pets</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#">Messages</a></li>
+        <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">My Applications</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-favorite.html">Favorites</a></li>
+
+        <!-- Notification -->
+        <li class="nav-item mx-3 position-relative">
+          <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+        </li>
+
+        <!-- Profile Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2 profile-image" width="35" height="35">
+            <div class="lh-1">
+              <div class="fw-bold text-white" id="navbarUserName"></div>
+              <div class="text-light small" id="navbarUserRole"></div>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="profileDropdown">
+            <li class="dropdown-header">
+              <strong id="dropdownUserName"></strong><br>
+              <small class="text-muted" id="dropdownUserRole"></small>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="adopter-profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="adopter-setting.html">Settings</a></li>
+            <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="container mt-4 mb-5">
+
+  <header class="mb-4">
+    <h3 class="fw-bold">My Applications</h3>
+    <p class="text-muted">Track the status of your pet adoption applications</p>
+  </header>
+
+  <!-- Stats Summary -->
+  <section class="row g-4 mb-4">
+
+    <div class="col-md-3">
+      <article class="bg-white border rounded-4 text-center p-4">
+        <div class="fs-1"><i class="fa-solid fa-list"></i></div>
+        <h4 class="fw-bold mt-2" id="totalApplications">0</h4>
+        <p class="text-muted mb-0">Your Applications</p>
+      </article>
+    </div>
+
+    <div class="col-md-3">
+      <article class="bg-white border rounded-4 text-center p-4">
+        <div class="fs-1"><i class="fa-regular fa-clock"></i></div>
+        <h4 class="fw-bold mt-2" id="inProgressCount">0</h4>
+        <p class="text-muted mb-0">In Progress</p>
+      </article>
+    </div>
+
+    <div class="col-md-3">
+      <article class="bg-white border rounded-4 text-center p-4">
+        <div class="fs-1"><i class="fa-regular fa-calendar-check"></i></div>
+        <h4 class="fw-bold mt-2" id="approvedCount">0</h4>
+        <p class="text-muted mb-0">Approved</p>
+      </article>
+    </div>
+
+    <div class="col-md-3">
+      <article class="bg-white border rounded-4 text-center p-4">
+        <div class="fs-1"><i class="fa-solid fa-comments"></i></div>
+        <h4 class="fw-bold mt-2" id="interviewCount">0</h4>
+        <p class="text-muted mb-0">Interview Scheduled</p>
+      </article>
+    </div>
+
+  </section>
+
+  <!-- Status Tabs -->
+  <section class="mb-4">
+    <div class="d-flex gap-2">
+      <button class="btn btn-dark px-4" id="filterAll">All Applications</button>
+      <button class="btn btn-outline-dark px-4" id="filterActive">Active</button>
+      <button class="btn btn-outline-dark px-4" id="filterCompleted">Completed</button>
+    </div>
+  </section>
+
+  <!-- APPLICATION LIST -->
+  <section id="applicationsList" class="d-flex flex-column gap-4">
+
+    <!-- Template Example Card (Dynamic Render in JS) -->
+    <article class="bg-white border rounded-4 p-4 shadow-sm application-card animate-fadeInUp">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="d-flex align-items-center gap-3">
+          <img src="/frontend/assets/image/photo/dog1.jpg" class="rounded-circle" width="75" height="75" alt="pet" />
+          <div>
+            <h4 class="fw-bold mb-1">Sadness</h4>
+            <p class="text-muted small mb-1">Gender: Male</p>
+            <p class="text-muted small mb-1">Application #: AHP-2025-001</p>
+            <p class="text-muted small">Submitted: 1/15/2025</p>
+          </div>
+        </div>
+
+        <span class="badge bg-purple text-white px-3 py-2">Interview Scheduled</span>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <p class="small text-muted mb-1">Last Update:</p>
+          <p>1/18/2025</p>
+        </div>
+        <div class="col-md-4">
+          <p class="small text-muted mb-1"><i class="fa-regular fa-calendar"></i> Interview:</p>
+          <p>1/22/2025 at 02:00 PM</p>
+        </div>
+        <div class="col-md-4">
+          <p class="small text-muted mb-1">Contact Person:</p>
+          <p class="mb-0 fw-semibold">Juliana Mae Castillo</p>
+          <p class="mb-0 small">JulsMae18@gmail.com</p>
+          <p class="mb-0 small">📞 +63 9212 1200</p>
+        </div>
+      </div>
+
+      <div class="mt-3 p-3 rounded" style="background-color: #dcd3ff;">
+        <strong>Next Step:</strong>
+        <p class="mb-0">In-person interview and meet & greet with Sadness</p>
+      </div>
+
+      <div class="mt-2 p-3 rounded" style="background-color: #d8ffd8;">
+        <strong>Notes:</strong>
+        <p class="mb-0">Great application! Family has experience with large dogs.</p>
+      </div>
+
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-outline-dark">View Details</button>
+        <button class="btn btn-dark">View Interview Details</button>
+        <button class="btn btn-outline-dark">Message</button>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<script src="../../bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/frontend/js/auth/auth.js"></script>
+<script type="module" src="/frontend/scripts/pages/adopterApplications.js"></script>
+
+</body>
+</html>

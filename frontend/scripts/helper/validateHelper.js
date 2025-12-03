@@ -1,4 +1,4 @@
-class Validate{
+export class Validate{
      constructor() {
     this.msgEl = null;
     }
@@ -23,17 +23,6 @@ class Validate{
 
     if (!phoneRegex.test(payload.phone)) {
       this.showMessage('Phone number must start with 09 and have exactly 11 digits.', 'danger');
-      return false;
-    }
-
-    // Check required consents
-    const requiredConsents = ['agreed_terms', 'consents_background_check'];
-    const missingConsents = requiredConsents.filter(consent => 
-      !payload.consents.includes(consent)
-    );
-
-    if (missingConsents.length > 0) {
-      this.showMessage('Please agree to the Terms of Service and Background Check consent.', 'danger');
       return false;
     }
 

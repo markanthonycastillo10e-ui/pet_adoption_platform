@@ -1,3 +1,4 @@
+import { Validate } from "../helper/validateHelper";
 export class SignupForm {
   constructor() {
     this.msgEl = null;
@@ -23,6 +24,7 @@ export class SignupForm {
       msgEl.className = 'mt-3';
       form.parentNode.insertBefore(msgEl, form.nextSibling);
     }
+    
     this.msgEl = msgEl;
   }
 
@@ -48,38 +50,17 @@ export class SignupForm {
   }
 
   validatePayload(payload) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^09\d{9}$/;
+    // Create an instance of Validate and pass the message element to it.
+    const validate = new Validate();
+    validate.msgEl = this.msgEl;
 
-    if (!payload.first_name?.trim() || !payload.last_name?.trim()) {
-      this.showMessage('Please enter your full name.', 'danger');
-      return false;
-    }
-
-    if (!emailRegex.test(payload.email)) {
-      this.showMessage('Please enter a valid email address.', 'danger');
-      return false;
-    }
-
-    if (!payload.password || payload.password.length < 6) {
-      this.showMessage('Password must be at least 6 characters.', 'danger');
-      return false;
-    }
-
-    if (!phoneRegex.test(payload.phone)) {
-      this.showMessage('Phone number must start with 09 and have exactly 11 digits.', 'danger');
-      return false;
-    }
-
-    if (!payload.living_situation) {
-      this.showMessage('Please select your living situation.', 'danger');
-      return false;
-    }
-
-    return true;
+    // Call the correct validation method and return its result.
+    return validate.validatePayload(payload);
   }
 
   async submitToBackend(payload, form) {
+    const messenger = new Validate();
+    messenger.msgEl = this.msgEl;
     try {
       const response = await fetch('http://localhost:3000/api/auth/register/adopter', {
         method: 'POST',
@@ -92,7 +73,7 @@ export class SignupForm {
       const result = await response.json();
 
       if (response.ok) {
-        this.showMessage(result.message || 'Registration successful!', 'success');
+        messenger.showMessage(result.message || 'Registration successful!', 'success');
         form.reset();
         
         // Redirect to login after successful registration
@@ -100,27 +81,12 @@ export class SignupForm {
           window.location.href = 'login-form.html';
         }, 2000);
       } else {
-        this.showMessage(result.message || result.error || 'Registration failed.', 'danger');
+        messenger.showMessage(result.message || result.error || 'Registration failed.', 'danger');
       }
     } catch (error) {
       console.error('Registration error:', error);
-      this.showMessage('Unable to connect to server. Please try again later.', 'danger');
+      messenger.showMessage('Unable to connect to server. Please try again later.', 'danger');
     }
   }
 
-  showMessage(text, type) {
-    if (!this.msgEl) return;
-
-    this.msgEl.textContent = text;
-    this.msgEl.className = `alert alert-${type} mt-3`;
-    this.msgEl.setAttribute('role', 'alert');
-
-    // Auto-hide success messages after 5 seconds
-    if (type === 'success') {
-      setTimeout(() => {
-        this.msgEl.textContent = '';
-        this.msgEl.className = '';
-      }, 5000);
-    }
-  }
 }
