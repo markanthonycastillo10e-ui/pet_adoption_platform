@@ -6,59 +6,51 @@
   <title>Pet Assignments - Staff Dashboard</title>
   <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/frontend/css/base/general.css">
+  <link rel="stylesheet" href="/frontend/css/utils/staff-pet-assignment.css">
+  <style>
+   
+  </style>
 </head>
-<body class="bg-light" data-required-role="staff">
+<body class="bg-light">
   <!-- Navigation Bar -->
-   <nav class="navbar navbar-expand-lg staff-navbar-gradient navbar-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold fs-4" href="#">🐾 Staff Dashboard</a>
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#staffNavbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <header>
+    <nav class="navbar navbar-expand-lg staff-navbar-gradient navbar-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-4" href="#">🐾 Staff Dashboard</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#staffNavbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="staffNavbarNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link" href="staff-dashboard.html">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link fw-medium" href="staff-pets.html">Pets</a></li>
-          <li class="nav-item"><a class="nav-link fw-medium" href="staff-messages.html">Messages</a></li>
-         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Management
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="staff-pet-assignment.html">Pet Assignment</a></li>
-              <li><a class="dropdown-item" href="#">Task Assignment</a></li>
-              <li><a class="dropdown-item" href="#">Care Tracking</a></li>
-              <li><a class="dropdown-item" href="#">Volunteers</a></li>
-            </ul>
-          </li>
+        <div class="collapse navbar-collapse" id="staffNavbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="staff-dashboard.html">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link fw-medium" href="staff-pets.html">Pets</a></li>
+            <li class="nav-item"><a class="nav-link fw-medium" href="staff-messages.html">Messages</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Management
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="staff-pet-assignment.html">Pet Assignment</a></li>
+                <li><a class="dropdown-item" href="#">Task Assignment</a></li>
+                <li><a class="dropdown-item" href="#">Care Tracking</a></li>
+                <li><a class="dropdown-item" href="#">Volunteers</a></li>
+              </ul>
+            </li>
             <li class="nav-item me-lg-3">
               <i class="fa-regular fa-bell text-white" style="font-size:1.1rem"></i>
             </li>
-          <li class="nav-item me-lg-3 mt-2 mt-lg-0">
-            <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item me-lg-3 mt-2 mt-lg-0">
+              <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+            </li>
+            <li class="nav-item d-flex align-items-center mt-2 mt-lg-0">
               <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="staff-profile-img me-2" />
-            <div class="lh-1">
-              <div class="fw-bold text-white" id="navbarUserName"></div>
-              <div class="text-light small" id="navbarUserRole"></div>
-            </div>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Reports & Analytics</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-/ul>
+              <div class="text-white small lh-1">
+                <div id="staffNavbarName">Dazzjin Lee</div>
+                <div id="staffNavbarRole">Staff Member</div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -72,20 +64,18 @@
       <p class="mb-0">Manage volunteer assignments for pets in the shelter</p>
     </header>
 
-    <!-- Volunteer Capacity Section -->
-    <section class="">
-<div class="col-md-6 col-sm-12 mb-3 staff-card-container p-0 d-flex" id="variation-button-js" style="height: 60px;">
-    <button class="btn staff-view-dashboard-btn text-white flex-fill d-flex align-items-center justify-content-center" id="pet-assignments-button">
-        Pet Assignments
-    </button>
-    <button class="btn staff-quick-btn text-primary flex-fill d-flex align-items-center justify-content-center" id="volunteer-capacity-button">
-        Volunteer Capacity
-    </button>
-</div>
+    <!-- Toggle Buttons -->
+    <section class="mb-4">
+      <div class="col-md-6 col-sm-12 mb-3 staff-card-container p-0 d-flex" id="variation-button-js" style="height: 60px;">
+        <button class="btn staff-view-dashboard-btn text-white flex-fill d-flex align-items-center justify-content-center" id="pet-assignments-button">
+          Pet Assignments
+        </button>
+        <button class="btn staff-quick-btn text-primary flex-fill d-flex align-items-center justify-content-center" id="volunteer-capacity-button">
+          Volunteer Capacity
+        </button>
+      </div>
 
-
-
-
+      <!-- Stats Section -->
       <div class="row">
         <div class="col-md-3 col-sm-6 mb-3">
           <article class="staff-stat-card bg-white text-center p-4">
@@ -114,8 +104,8 @@
       </div>
     </section>
 
-    <!-- Pet Assignments Section -->
-    <section>
+    <!-- Pet Assignments Section (Default View) -->
+    <section id="pet-assignments-section">
       <h2 class="fw-bold mb-4">Pet Assignment</h2>
       
       <!-- Pet 1: Sadness -->
@@ -175,9 +165,56 @@
         </div>
       </article>
     </section>
+
+    <!-- Volunteer Capacity Section (Hidden by default) -->
+    <section id="volunteer-capacity-section">
+      <h2 class="fw-bold mb-4">Volunteer Capacity Overview</h2>
+      
+      <div class="volunteer-assignments-capacity-section">
+        <div class="volunteer-assignments-volunteer-list">
+          <!-- Volunteer 1 -->
+          <div class="volunteer-assignments-volunteer-item">
+            <div class="volunteer-assignments-volunteer-avatar">KW</div>
+            <div class="volunteer-assignments-volunteer-content">
+              <div class="volunteer-assignments-volunteer-fullname">Kenji Webbo</div>
+              <a href="mailto:kenjiprotector@gmail.com" class="volunteer-assignments-volunteer-email">kenjiprotector@gmail.com</a>
+            </div>
+          </div>
+          
+          <!-- Volunteer 2 -->
+          <div class="volunteer-assignments-volunteer-item">
+            <div class="volunteer-assignments-volunteer-avatar">DP</div>
+            <div class="volunteer-assignments-volunteer-content">
+              <div class="volunteer-assignments-volunteer-fullname">Dokus Pandilinan</div>
+              <a href="mailto:dakeko0921@gmail.com" class="volunteer-assignments-volunteer-email">dakeko0921@gmail.com</a>
+            </div>
+          </div>
+          
+          <!-- Volunteer 3 -->
+          <div class="volunteer-assignments-volunteer-item">
+            <div class="volunteer-assignments-volunteer-avatar">DP</div>
+            <div class="volunteer-assignments-volunteer-content">
+              <div class="volunteer-assignments-volunteer-fullname">Daks Pandilinan</div>
+              <a href="mailto:Dakeko0921@gmail.com" class="volunteer-assignments-volunteer-email">Dakeko0921@gmail.com</a>
+            </div>
+          </div>
+          
+          <!-- Volunteer 4 -->
+          <div class="volunteer-assignments-volunteer-item">
+            <div class="volunteer-assignments-volunteer-avatar">VP</div>
+            <div class="volunteer-assignments-volunteer-content">
+              <div class="volunteer-assignments-volunteer-fullname">Vom Padila</div>
+              <div class="text-muted" style="font-size: 0.85rem;">No email provided</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/frontend/js/auth/auth.js"></script>
+  <script src="/frontend/js/staff/staff-pet-assignment/switching-button-interaction.js">
+   
+  </script>
 </body>
 </html>

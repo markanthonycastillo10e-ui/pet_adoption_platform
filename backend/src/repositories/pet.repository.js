@@ -16,7 +16,8 @@ class PetRepository {
                 location: petData.location,
                 vaccinated: petData.vaccinated,
                 personality: petData.personality,
-                about_pet: petData.about_pet
+                about_pet: petData.about_pet,
+          
             });
 
             return await pet.save();

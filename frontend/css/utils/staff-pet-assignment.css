@@ -77,3 +77,151 @@
       border-top: 1px solid #eee;
       margin: 25px 0;
     }   
+
+/*UI AND IX FOR STAFF-PET-ASSIGNMENT*/
+    .pet-card {
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+      margin-bottom: 20px;
+    }
+    .pet-card:hover {
+      transform: translateY(-3px);
+    }
+    .pet-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .pet-details {
+      padding: 20px;
+    }
+    .pet-name {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .pet-info {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .pet-training {
+      display: inline-block;
+      background-color: #e9f7ef;
+      color: #27ae60;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .volunteer-info {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+    .volunteer-name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .volunteer-details {
+      color: #666;
+      font-size: 0.85rem;
+    }
+    .stats-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+    .stats-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .page-header {
+      margin-bottom: 30px;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .divider {
+      border-top: 1px solid #eee;
+      margin: 25px 0;
+    }   
+
+     /* Volunteer Capacity Section Styles - Hidden by default */
+    #volunteer-capacity-section {
+      display: none;
+    }
+    
+    .volunteer-assignments-volunteer-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      transition: background-color 0.2s;
+    }
+    
+    .volunteer-assignments-volunteer-item:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .volunteer-assignments-volunteer-item:last-child {
+      border-bottom: none;
+    }
+    
+    .volunteer-assignments-volunteer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      margin-right: 15px;
+    }
+    
+    .volunteer-assignments-volunteer-content {
+      flex: 1;
+    }
+    
+    .volunteer-assignments-volunteer-fullname {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .volunteer-assignments-volunteer-email {
+      font-size: 0.85rem;
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    .volunteer-assignments-volunteer-email:hover {
+      color: #5a6fd8;
+      text-decoration: underline;
+    }
+    
+    .volunteer-assignments-capacity-section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    
+    .volunteer-assignments-volunteer-list {
+      margin-top: 20px;
+    }

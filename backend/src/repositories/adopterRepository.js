@@ -11,7 +11,8 @@ class AdopterRepository {
                 phone: adopterData.phone,
                 living_situation: adopterData.living_situation,
                 pet_experience: adopterData.pet_experience || [],
-                consents: this.buildConsents(adopterData.consents || [])
+                consents: this.buildConsents(adopterData.consents || []),
+                role: adopterData.role || 'adopter',
             });
 
             return await adopter.save();
@@ -49,6 +50,7 @@ class AdopterRepository {
             consented_at: new Date()
         }));
     }
+
 }
 
 module.exports = new AdopterRepository();
