@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adopter Profile</title>
   <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/frontend/css/base/general.css">
-  
+  <link rel="stylesheet" href="/frontend/css/base/general.css" />
+  <link rel="stylesheet" href="/frontend/css/components/adopter-profile.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
 <body class="bg-light">
@@ -23,7 +24,7 @@
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item"><a class="nav-link text-white" href="adopter-dashboard.html">Dashboard</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="adopter-pet.html">Browse Pets</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="#">Messages</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-message.html">Messages</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-application.html">My Applications</a></li>
         <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-favorite.html">Favorites</a></li>
 
@@ -36,7 +37,7 @@
         <!-- Profile Dropdown (Clean version, no arrow) -->
         <li class="nav-item dropdown">
           <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2" width="35" height="35">
+            <img id="navbarProfilePic" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2" width="35" height="35">
             <div class="lh-1">
               <div class="fw-bold text-white" id="navbarUserName">Dazzjin Lee</div>
               <div class="text-light small" id="navbarUserRole">Pet Adopter</div>
@@ -58,124 +59,130 @@
   </div>
 </nav>
 
-  <!-- Profile Content -->
-  <div class="container my-4 adopter-profile-container">
-    <!-- Profile Header -->
-    <div class="adopter-profile-header">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1 class="fw-bold mb-1">Account Center</h1>
-          <p class="text-muted mb-0">Manage your personal information and applications</p>
-        </div>
+<!-- Profile Content -->
+<div class="container my-4 adopter-profile-container">
+  <!-- Profile Header -->
+  <div class="adopter-profile-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="fw-bold mb-1">Account Center</h1>
+        <p class="text-muted mb-0">Manage your personal information and applications</p>
+      </div>
+      <div id="profileActionButtons">
         <button class="btn adopter-profile-edit-btn" id="editProfileBtn">Edit Profile</button>
-      </div>
-    </div>
-
-    <div class="row">
-      <!-- Left Column -->
-      <div class="col-md-8">
-        <!-- Profile Section -->
-        <div class="adopter-profile-section">
-          <h3 class="adopter-profile-section-title">Profile</h3>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Password</div>
-            <div class="adopter-profile-info-value">••••••••</div>
-          </div>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label" id="profileDisplayName">Keylist Webbo</div>
-            <div class="adopter-profile-info-value" id="memberSince">Member since Sept 1 2015</div>
-          </div>
-          
-          <div class="adopter-profile-divider"></div>
-          
-          <h5 class="fw-bold mb-3" id="applicationsCount">3 Applications</h5>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Information</div>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-4">
-              <div class="adopter-profile-info-item">
-                <div class="adopter-profile-info-label">First name</div>
-                <div class="adopter-profile-info-value" id="userFirstName">Keylist</div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="adopter-profile-info-item">
-                <div class="adopter-profile-info-label">Middle name</div>
-                <div class="adopter-profile-info-value" id="userMiddleName"></div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="adopter-profile-info-item">
-                <div class="adopter-profile-info-label">Last name</div>
-                <div class="adopter-profile-info-value" id="userLastName">Webbo</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Bio</div>
-            <div class="adopter-profile-info-value" id="userBio">
-              Animal lover with a passion for giving rescue pets a second chance at happiness. Currently looking for a furry companion to join my family.
-            </div>
-          </div>
-        </div>
-        
-        <!-- Performance Level Section -->
-        <div class="adopter-profile-section">
-          <h3 class="adopter-profile-section-title">Performance Level</h3>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Performance age</div>
-            <div class="adopter-profile-info-value" id="performanceAge">Young Adult to Adult</div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Right Column -->
-      <div class="col-md-4">
-        <!-- Favorites Section -->
-        <div class="adopter-profile-section">
-          <h3 class="adopter-profile-section-title" id="favoritesCount">12 Favorites</h3>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Phone number</div>
-            <div class="adopter-profile-info-value" id="userPhone">+6399 8842 845</div>
-          </div>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Email Address</div>
-            <div class="adopter-profile-info-value" id="userEmail">Keylivebbo@gmail.com</div>
-          </div>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Address</div>
-            <div class="adopter-profile-info-value" id="userAddress">123 Asawa ni Marie St.jude Pampanga</div>
-          </div>
-        </div>
-        
-        <!-- Messages Section -->
-        <div class="adopter-profile-section">
-          <h3 class="adopter-profile-section-title" id="messagesCount">28 Messages</h3>
-          
-          <div class="adopter-profile-info-item">
-            <div class="adopter-profile-info-label">Follow/Show</div>
-            <div class="adopter-profile-info-value">
-              <span class="adopter-profile-status adopter-profile-status-inactive"></span>
-              <span id="userStatus">In Active</span>
-            </div>
-          </div>
-        </div>
+        <button class="btn btn-secondary d-none" id="cancelEditBtn">Cancel</button>
+        <button class="btn adopter-profile-edit-btn d-none" id="saveProfileBtn">Save Changes</button>
       </div>
     </div>
   </div>
 
+  <form id="profileForm">
+    <div class="row g-4">
+      <!-- Left Column -->
+      <div class="col-md-4">
+        <!-- Profile Picture Section -->
+        <div class="adopter-profile-section text-center">
+          <div class="profile-pic-wrapper">
+            <img id="profilePic" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="Profile Picture" class="profile-pic-large">
+            <div class="profile-pic-upload-overlay">
+              <i class="fas fa-camera"></i>
+              <span>Change</span>
+            </div>
+            <input type="file" id="profilePicInput" class="d-none" accept="image/*">
+          </div>
+          <div class="mt-3">
+            <h4 class="fw-bold" id="profileDisplayName">Keylist Webbo</h4>
+            <p class="text-muted" id="memberSince">Member since Sept 1 2015</p>
+          </div>
+        </div>
+
+        <!-- Contact Info Section -->
+        <div class="adopter-profile-section">
+          <h5 class="adopter-profile-section-title">Contact Info</h5>
+          <div class="adopter-profile-info-item">
+            <label for="userPhone" class="adopter-profile-info-label">Phone number</label>
+            <div class="adopter-profile-info-value" data-view-mode id="viewUserPhone">+6399 8842 845</div>
+            <input type="tel" class="form-control d-none" data-edit-mode id="userPhone" name="phone">
+          </div>
+          <div class="adopter-profile-info-item">
+            <label for="userEmail" class="adopter-profile-info-label">Email Address</label>
+            <div class="adopter-profile-info-value" data-view-mode id="viewUserEmail">Keylivebbo@gmail.com</div>
+            <input type="email" class="form-control d-none" data-edit-mode id="userEmail" name="email">
+          </div>
+          <div class="adopter-profile-info-item">
+            <label for="userAddress" class="adopter-profile-info-label">Address</label>
+            <div class="adopter-profile-info-value" data-view-mode id="viewUserAddress">123 Asawa ni Marie St.jude Pampanga</div>
+            <textarea class="form-control d-none" data-edit-mode id="userAddress" name="address" rows="3"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-md-8">
+        <!-- General Information Section -->
+        <div class="adopter-profile-section">
+          <h5 class="adopter-profile-section-title">General Information</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="adopter-profile-info-item">
+                <label for="userFirstName" class="adopter-profile-info-label">First name</label>
+                <div class="adopter-profile-info-value" data-view-mode id="viewUserFirstName">Keylist</div>
+                <input type="text" class="form-control d-none" data-edit-mode id="userFirstName" name="first_name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="adopter-profile-info-item">
+                <label for="userLastName" class="adopter-profile-info-label">Last name</label>
+                <div class="adopter-profile-info-value" data-view-mode id="viewUserLastName">Webbo</div>
+                <input type="text" class="form-control d-none" data-edit-mode id="userLastName" name="last_name">
+              </div>
+            </div>
+          </div>
+
+          <div class="adopter-profile-info-item">
+            <label for="userBio" class="adopter-profile-info-label">Bio</label>
+            <div class="adopter-profile-info-value" data-view-mode id="viewUserBio">
+              Animal lover with a passion for giving rescue pets a second chance at happiness. Currently looking for a furry companion to join my family.
+            </div>
+            <textarea class="form-control d-none" data-edit-mode id="userBio" name="bio" rows="4"></textarea>
+          </div>
+        </div>
+
+        <!-- Adoption Preferences Section -->
+        <div class="adopter-profile-section">
+          <h5 class="adopter-profile-section-title">Adoption Preferences</h5>
+          <div class="adopter-profile-info-item">
+            <label for="livingSituation" class="adopter-profile-info-label">Living Situation</label>
+            <div class="adopter-profile-info-value" data-view-mode id="viewLivingSituation">Own House</div>
+            <select class="form-select d-none" data-edit-mode id="livingSituation" name="living_situation">
+              <option value="own_house">Own House</option>
+              <option value="rent_house">Rent House</option>
+              <option value="apartment">Apartment</option>
+              <option value="condominium">Condominium</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="adopter-profile-section">
+          <h5 class="adopter-profile-section-title">Security</h5>
+          <div class="adopter-profile-info-item">
+            <div class="adopter-profile-info-label">Password</div>
+            <div class="adopter-profile-info-value">
+              <span data-view-mode>••••••••</span>
+              <button class="btn btn-sm btn-outline-secondary d-none" data-edit-mode id="changePasswordBtn">Change Password</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>
+
   <!-- Load Bootstrap JavaScript only once -->
   <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/frontend/js/adopter/profile/profile-info.js"></script>
+  <script type="module" src="/frontend/scripts/pages/adopterProfile.js"></script>
 </body>
 </html>

@@ -11,7 +11,8 @@ class VolunteerRepository {
                 phone: volunteerData.phone,
                 availability: volunteerData.availability || [],
                 activities: volunteerData.interested_activities || [],
-                consents: this.buildConsents(volunteerData.consents || [])
+                consents: this.buildConsents(volunteerData.consents || []),
+                role: volunteerData.role || 'volunteer'
             });
 
             return await volunteer.save();

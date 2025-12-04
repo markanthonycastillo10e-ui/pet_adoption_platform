@@ -1,5 +1,6 @@
 // Dashboard page locations - UPDATED FOR YOUR FOLDER STRUCTURE
 const DASHBOARD_PATHS = {
+    // Assuming the dashboard pages are inside their respective folders
     adopter: 'adopters/adopter-dashboard.html',
     volunteer: 'volunteer/volunteer-dashboard.html',
     staff: 'staff/staff-dashboard.html'
@@ -7,6 +8,7 @@ const DASHBOARD_PATHS = {
 
 // Form switching logic
 document.addEventListener('DOMContentLoaded', function() {
+    // --- LOGIN FORM SWITCHING ---
     // Map of all role switching buttons
     const roleButtons = {
         'Adopters': ['loginBtnAdopters', 'loginBtnAdopters2', 'loginBtnAdopters3'],
@@ -61,11 +63,98 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Form submission handlers
+    // --- LOGIN FORM SUBMISSION ---
     document.getElementById('loginFormAdopter')?.addEventListener('submit', handleAdopterLogin);
     document.getElementById('loginFormVolunteer')?.addEventListener('submit', handleVolunteerLogin);
     document.getElementById('loginFormStaff')?.addEventListener('submit', handleStaffLogin);
+
+    // --- REGISTRATION FORM SUBMISSION ---
+    document.getElementById('signupForm')?.addEventListener('submit', handleAdopterRegistration);
+    document.querySelector('.js-volunteer-signup')?.addEventListener('submit', handleVolunteerRegistration);
+    document.getElementById('js-staff-signup')?.addEventListener('submit', handleStaffRegistration);
 });
+
+// =================================================================================
+// REGISTRATION HANDLERS
+// =================================================================================
+
+async function handleAdopterRegistration(e) {
+    e.preventDefault();
+    await handleRegistration(e.target, 'adopter', 'signupMessage');
+}
+
+async function handleVolunteerRegistration(e) {
+    e.preventDefault();
+    await handleRegistration(e.target, 'volunteer', 'volunteerSignupMessage');
+}
+
+async function handleStaffRegistration(e) {
+    e.preventDefault();
+    await handleRegistration(e.target, 'staff', 'staffSignupMessage');
+}
+
+/**
+ * Generic function to handle registration for all user types.
+ * @param {HTMLFormElement} form - The form element being submitted.
+ * @param {string} userType - The type of user ('adopter', 'volunteer', 'staff').
+ * @param {string} messageDivId - The ID of the div to display messages in.
+ */
+async function handleRegistration(form, userType, messageDivId) {
+    const messageDiv = document.getElementById(messageDivId);
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // Consolidate checkbox values into arrays
+    data.pet_experience = formData.getAll('pet_experience');
+    data.adopter_consents = formData.getAll('adopter_consents');
+    data.availability = formData.getAll('availability');
+    data.interested_activities = formData.getAll('interested_activities');
+    data.volunteer_consents = formData.getAll('volunteer_consents');
+    data.staff_consents = formData.getAll('staff_consents');
+
+    // Add user_type to the data payload
+    data.user_type = userType;
+
+    // Rename fields to match a consistent backend API if needed
+    // Example: backend expects 'first_name', but form has 'adopter_first_name'
+    data.first_name = data[`${userType}_first_name`] || data.first_name;
+    data.last_name = data[`${userType}_last_name`] || data.last_name;
+    data.email = data[`${userType}_email`] || data.email;
+    data.password = data[`${userType}_password`] || data.password;
+    data.phone_number = data[`${userType}_phone_number`] || data.volunteer_phone || data.staff_phone;
+
+    try {
+        showMessage(messageDiv, 'Registering...', 'loading');
+
+        const response = await fetch('/api/auth/register', { // Assuming this is your registration endpoint
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            showMessage(messageDiv, 'Registration successful! Please log in.', 'success');
+            form.reset();
+            // Optional: Redirect to login page after a delay
+            setTimeout(() => {
+                window.location.href = '/frontend/pages/login-form.html';
+            }, 2000);
+        } else {
+            // Display the specific error from the backend (e.g., "Email already in use")
+            showMessage(messageDiv, result.error || 'Registration failed. Please try again.', 'error');
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        showMessage(messageDiv, 'An unexpected error occurred. Please check the console.', 'error');
+    }
+}
+
+
+// =================================================================================
+// LOGIN HANDLERS
+// =================================================================================
 
 // Login handlers
 async function handleAdopterLogin(e) {

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+
+    <!-- DO NOT REMOVE -->
+    <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/frontend/css/base/general.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body data-required-role="adopter">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg adopter-navbar" style="background-color: #F39C12;">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-white" href="#">🐾 Dashboard</a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adopterNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="adopterNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-pet.html">Browse Pets</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="adopter-message.html">Messages</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-application.html">My Applications</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-favorite.html">Favorites</a></li>
+
+        <li class="nav-item mx-3 position-relative">
+          <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link d-flex align-items-center text-white" href="#" role="button" data-bs-toggle="dropdown">
+            <img id="adopter-profile" src="/frontend/assets/image/photo/BoyIcon.jpg" class="rounded-circle me-2 profile-image" width="35" height="35">
+
+            <!-- DO NOT CHANGE THIS -->
+            <div class="lh-1">
+              <div class="fw-bold text-white" id="navbarUserName"></div>
+              <div class="text-light small" id="navbarUserRole"></div>
+            </div>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end mt-2 shadow">
+            <li class="dropdown-header">
+              <strong id="dropdownUserName"></strong><br>
+              <small class="text-muted" id="dropdownUserRole"></small>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="adopter-profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="adopter-setting.html">Settings</a></li>
+            <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Log out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div class="container my-4">
+
+    <h3 class="fw-bold">Messages</h3>
+    <small class="text-muted">Communicate with shelter staff, volunteers, and adoptive families</small>
+
+    <!-- Search bar -->
+    <div class="mt-3">
+        <input type="text" class="form-control rounded-pill px-3" placeholder="Search conversation">
+    </div>
+
+    <!-- Conversations Box -->
+    <div class="bg-white p-4 rounded-4 shadow-sm mt-4">
+
+        <h5 class="fw-bold mb-4">Recent Conversations</h5>
+
+        <!-- 1 -->
+        <div class="d-flex align-items-start mb-4">
+            <img src="/frontend/assets/image/photo/girl1.jpg" class="rounded-circle" width="55" height="55">
+            <div class="ms-3 flex-grow-1">
+                <div class="fw-bold">Staff Admin - Dasha taran</div>
+                <div class="text-muted small">Pet Owner • Space</div>
+                <div class="text-muted mt-1">
+                    Hello Kenji! I'd be happy to help you meet Luna. She's a wonderful cat…
+                </div>
+            </div>
+            <div class="text-muted small">30m ago</div>
+        </div>
+
+        <!-- 2 -->
+        <div class="d-flex align-items-start mb-4">
+            <img src="/frontend/assets/image/photo/girl2.jpg" class="rounded-circle" width="55" height="55">
+            <div class="ms-3 flex-grow-1">
+                <div class="fw-bold">Staff Admin - Luna</div>
+                <div class="text-muted small">Pet Owner • Anger</div>
+                <div class="text-muted mt-1">Hi! I'm interested in adopting Anger. Can we schedule a meet and greet?</div>
+            </div>
+            <div class="text-muted small">2h ago</div>
+        </div>
+
+        <!-- 3 -->
+        <div class="d-flex align-items-start">
+            <img src="/frontend/assets/image/photo/girl3.jpg" class="rounded-circle" width="55" height="55">
+            <div class="ms-3 flex-grow-1">
+                <div class="fw-bold">Staff Admin - Julliana Mae Castillo</div>
+                <div class="text-muted small">Pet Owner • Sadness</div>
+                <div class="text-muted mt-1">
+                    Yes, Saturday afternoon works perfectly! What time works best for you?
+                </div>
+            </div>
+            <div class="text-muted small">1d ago</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- DO NOT REMOVE JS -->
+<script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/frontend/js/auth/auth.js"></script>
+
+</body>
+</html>

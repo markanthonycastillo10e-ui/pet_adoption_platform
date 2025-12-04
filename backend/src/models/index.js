@@ -32,6 +32,11 @@ const adopterSchema = new mongoose.Schema({
     type: String,
     'enum': ['active', 'inactive', 'suspended'],
     default: 'active'
+  },
+  role:{
+    type: String,
+    'enum': ['adopter', 'volunteer','staff'],
+    default: 'active'
   }
 });
 
@@ -55,6 +60,11 @@ const volunteerSchema = new mongoose.Schema({
     type: String,
     'enum': ['pending', 'approved', 'rejected'],
     default: 'pending'
+  },
+  role:{
+    type: String,
+    'enum': ['adopter', 'volunteer','staff'],
+    default: 'active'
   }
 });
 
@@ -70,6 +80,11 @@ const staffSchema = new mongoose.Schema({
   status: {
     type: String,
     'enum': ['active', 'inactive'],
+    default: 'active'
+  },
+  role:{
+    type: String,
+    'enum': ['adopter', 'volunteer','staff'],
     default: 'active'
   }
 });

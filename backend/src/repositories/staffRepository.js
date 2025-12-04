@@ -10,8 +10,7 @@ class StaffRepository {
                 first_name: staffData.first_name,
                 last_name: staffData.last_name,
                 phone: staffData.phone,
-                role: staffData.role || 'coordinator',
-                department: staffData.department || 'administration',
+                role: staffData.role || 'staff',
                 consents: this.buildConsents(staffData.consents || [])
             });
 
