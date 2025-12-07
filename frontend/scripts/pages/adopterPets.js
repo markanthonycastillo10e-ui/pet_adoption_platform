@@ -9,7 +9,9 @@ function createPetCard(pet) {
     const col = document.createElement('div');
     col.className = 'col-md-6';
     
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    // Ensure favorites is always an array to prevent .includes() error
+    if (!Array.isArray(favorites)) favorites = [];
     const isFavorited = favorites.includes(pet._id);
     const favoritedClass = isFavorited ? 'favorited' : '';
     const heartIconClass = isFavorited ? 'fa-solid' : 'fa-regular';
@@ -105,41 +107,13 @@ async function applyFiltersAndLoadPets() {
             grid.innerHTML = '<div class="col-12 text-center"><p class="text-muted">No pets found matching your criteria.</p></div>';
         } else {
             pets.forEach(pet => grid.appendChild(createPetCard(pet)));
-            setupFavoriteIcons(); // Attach listeners to the new cards
+            // setupFavoriteIcons(); // This is causing duplicate listeners. We will use event delegation instead.
             setupApplyToAdoptButtons(); // Setup apply buttons
         }
     } catch (err) {
         console.error('Failed to load pets with filters:', err);
         grid.innerHTML = `<div class="col-12"><div class="alert alert-danger">Failed to load pets. ${err.message}</div></div>`;
     }
-}
-
-/**
- * Attaches click event listeners to all favorite icons on the page.
- */
-function setupFavoriteIcons() {
-    document.querySelectorAll('.favorite-icon').forEach(icon => {
-        // Remove existing listener to prevent duplicates on re-render
-        const newIcon = icon.cloneNode(true);
-        icon.parentNode.replaceChild(newIcon, icon);
-
-        newIcon.addEventListener('click', (e) => {
-            const petId = e.target.dataset.petId;
-            if (!petId) return;
-
-            e.target.classList.toggle('favorited');
-            e.target.classList.toggle('fa-regular');
-            e.target.classList.toggle('fa-solid');
-            
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            if (e.target.classList.contains('favorited')) {
-                if (!favorites.includes(petId)) favorites.push(petId);
-            } else {
-                favorites = favorites.filter(id => id !== petId);
-            }
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        });
-    });
 }
 
 /**
@@ -638,26 +612,6 @@ function setupAdoptionForm() {
 }
 
 /**
- * Helper function to show messages inside the adoption form modal.
- * @param {string} text The message to display.
- * @param {'success'|'danger'|'info'} type The type of message.
- */
-function showFormMessage(text, type) {
-    const messageDiv = document.getElementById('formMessage');
-    if (!messageDiv) return;
-
-    const alertType = type === 'info' ? 'alert-info' : type === 'success' ? 'alert-success' : 'alert-danger';
-    
-    messageDiv.innerHTML = text;
-    messageDiv.className = `alert ${alertType} mt-3`; // Make it visible
-
-    // Hide the message after 5 seconds if it's not an info/loading message
-    if (type !== 'info') {
-        setTimeout(() => { messageDiv.className = 'alert d-none'; }, 5000);
-    }
-}
-
-/**
  * Load adoption modal HTML dynamically if not present.
  */
 function loadAdoptionModalAndOpen(petId, petName) {
@@ -691,6 +645,40 @@ function loadAdoptionModalAndOpen(petId, petName) {
     setTimeout(() => {
         initializeAdoptionModal(petId, petName);
     }, 100);
+}
+
+/**
+ * Sets up a single, delegated event listener for actions on pet cards.
+ */
+function setupActionListeners() {
+    const grid = document.getElementById('petsGrid');
+    if (!grid) return;
+
+    // This single listener handles clicks for all favorite icons inside the grid.
+    grid.addEventListener('click', (e) => {
+        const target = e.target;
+
+        // Handle favorite icon clicks
+        if (target.matches('.favorite-icon')) {
+            const petId = target.dataset.petId;
+            if (!petId) return;
+
+            target.classList.toggle('favorited');
+            target.classList.toggle('fa-regular');
+            target.classList.toggle('fa-solid');
+
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            if (!Array.isArray(favorites)) favorites = [];
+
+            if (target.classList.contains('favorited')) {
+                favorites.push(petId);
+            } else {
+                favorites = favorites.filter(id => id !== petId);
+            }
+            // Use a Set to guarantee uniqueness before saving
+            localStorage.setItem('favorites', JSON.stringify([...new Set(favorites)]));
+        }
+    });
 }
 
 /**
@@ -741,6 +729,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup filters
     setupFilterListeners();
     
+    // Setup delegated action listeners for cards
+    setupActionListeners();
+
     // Debug check
     debugCheck();
     

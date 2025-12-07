@@ -1,6 +1,7 @@
 let allApplications = []; // Cache for client-side filtering
 
 document.addEventListener('DOMContentLoaded', () => {
+    setupModalTrigger();
     loadApplications();
     setupFilterButtons();
 });
@@ -110,8 +111,18 @@ function createApplicationCard(app) {
             </div>
             <div class="col-md-4">
                 <p class="small text-muted mb-1">Contact Person:</p>
-                <p class="mb-0 fw-semibold">Shelter Staff</p>
-                <p class="mb-0 small">Please use the messages tab.</p>
+                <p class="mb-0 fw-semibold">${app.adopter_first_name} ${app.adopter_last_name}</p>
+                <p class="mb-0 small text-muted">Applicant</p>
+                <p class="mb-0 small">📞 ${app.adopter_contact_no}</p>
+                ${app.pet?.posted_by_staff ? `
+                    <p class="mb-0 fw-semibold">${app.pet.posted_by_staff.first_name} ${app.pet.posted_by_staff.last_name}</p>
+                    <p class="mb-0 small text-muted">Shelter Staff</p>
+                    <p class="mb-0 small">📞 ${app.pet.posted_by_staff.phone}</p>
+                ` : `
+                    <p class="mb-0 fw-semibold">Shelter Staff</p>
+                    <p class="mb-0 small text-muted">General Inquiry</p>
+                    <p class="mb-0 small">Please use the messages tab.</p>
+                `}
             </div>
         </div>
         ${app.next_step ? `
@@ -125,7 +136,12 @@ function createApplicationCard(app) {
             <p class="mb-0">${app.staff_notes}</p>
         </div>` : ''}
         <div class="mt-3 d-flex gap-2">
-            <a href="/frontend/pages/adopters/applications/view-application.html?id=${app.application_id}" class="btn btn-outline-dark">View Details</a>
+            <button class="btn btn-outline-dark view-details-btn" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#applicationDetailsModal" 
+                    data-app-id="${app.application_id}">
+                View Details
+            </button>
         </div>
     `;
     return article;
@@ -160,8 +176,64 @@ function setupFilterButtons() {
                 e.currentTarget.classList.remove('btn-outline-dark');
 
                 // Call the filter function
-                filterButtonsbuttonId;
+                filterButtons[buttonId]();
             });
         }
     });
+}
+
+/**
+ * Sets up a listener on the modal to populate it with data when shown.
+ */
+function setupModalTrigger() {
+    const detailsModal = document.getElementById('applicationDetailsModal');
+    if (!detailsModal) return;
+
+    detailsModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+        // Extract info from data-* attributes
+        const applicationId = button.getAttribute('data-app-id');
+
+        // Find the application data from our cached array
+        const app = allApplications.find(a => a.application_id === applicationId);
+
+        if (app) {
+            populateDetailsModal(app);
+        } else {
+            console.error('Could not find application data for ID:', applicationId);
+        }
+    });
+}
+
+/**
+ * Fills the details modal with data from the selected application.
+ * @param {object} app The application object.
+ */
+function populateDetailsModal(app) {
+    document.getElementById('detail-app-number').textContent = app.application_id || 'N/A';
+    document.getElementById('detail-pet-name').textContent = app.pet_name || 'N/A';
+    document.getElementById('detail-submitted').textContent = new Date(app.date_submitted).toLocaleDateString();
+    document.getElementById('detail-next-step').textContent = app.next_step || 'No next step provided.';
+    
+    const notesDiv = document.getElementById('detail-notes');
+    if (app.staff_notes) {
+        notesDiv.textContent = app.staff_notes;
+        notesDiv.classList.remove('text-muted');
+    } else {
+        notesDiv.textContent = 'No notes from staff yet.';
+        notesDiv.classList.add('text-muted');
+    }
+
+    // Handle status badge
+    const statusSpan = document.getElementById('detail-status');
+    const statusColors = {
+        'Pending': 'bg-warning text-dark',
+        'Approved': 'bg-success',
+        'Interview Scheduled': 'bg-info',
+        'Rejected': 'bg-danger',
+        'Adopted': 'bg-primary'
+    };
+    statusSpan.textContent = app.status;
+    statusSpan.className = `badge px-3 py-2 ${statusColors[app.status] || 'bg-secondary'}`;
 }

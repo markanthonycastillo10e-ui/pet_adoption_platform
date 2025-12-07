@@ -77,7 +77,9 @@ class ApplicationRepository{
             const query = mongoose.Types.ObjectId.isValid(applicationId) 
                 ? { _id: applicationId } 
                 : { application_id: applicationId };
-            return await Application.findOne(query).populate('pet').populate('adopter');
+            return await Application.findOne(query)
+                .populate({ path: 'pet', populate: { path: 'posted_by_staff' } }) // Nested populate for staff
+                .populate('adopter');
         } catch (error) {
             throw new Error(`Failed to find application: ${error.message}`);
         }
@@ -85,7 +87,9 @@ class ApplicationRepository{
 
     async findAllForAdopter(adopterId) {
         try {
-            return await Application.find({ adopter: adopterId }).populate('pet').sort({ date_submitted: -1 });
+            return await Application.find({ adopter: adopterId })
+                .populate({ path: 'pet', populate: { path: 'posted_by_staff' } }) // Nested populate for staff
+                .sort({ date_submitted: -1 });
         } catch (error) {
             throw new Error(`Failed to find applications for adopter: ${error.message}`);
         }
@@ -93,7 +97,10 @@ class ApplicationRepository{
 
     async findAll() {
         try {
-            return await Application.find({}).populate('pet').populate('adopter').sort({ date_submitted: -1 });
+            return await Application.find({})
+                .populate({ path: 'pet', populate: { path: 'posted_by_staff' } }) // Nested populate for staff
+                .populate('adopter')
+                .sort({ date_submitted: -1 });
         } catch (error) {
             throw new Error(`Failed to find all applications: ${error.message}`);
         }
