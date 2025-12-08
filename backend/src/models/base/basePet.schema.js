@@ -7,7 +7,7 @@ function createPetSchema() {
     before_image: { type: String, required: true },
     pet_name: { type: String, required: true },
     age: { type: Number, required: true },
-    weight: { type: Number, required: true },
+    weight: { type: Number, required: false },
     created_at: { type: Date, default: Date.now }
   });
 }
