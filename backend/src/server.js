@@ -3,10 +3,11 @@ const cors = require('cors');
 require('dotenv').config();
 const db = require('./config/database'); // Import the database connection handler
 const petRoutes = require('./routes/petRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const authRoutes = require('./routes/authRoutes'); // Import auth routes
-const taskRoutes = require('./routes/taskRoutes'); // Import task routes
 const volunteerRoutes = require('./routes/volunteerRoutes'); // Import volunteer routes
+const activityLogRoutes = require('./routes/activityLogRoutes');
 
 const app = express();
 app.use(cors());
@@ -23,14 +24,17 @@ app.use('/api/auth', authRoutes);
 // Mount pet routes
 app.use('/api/pets', petRoutes);
 
-// Mount application routes
-app.use('/api/applications', applicationRoutes);
-
 // Mount task routes
 app.use('/api/tasks', taskRoutes);
 
+// Mount application routes
+app.use('/api/applications', applicationRoutes);
+
 // Mount volunteer routes
 app.use('/api/volunteers', volunteerRoutes);
+
+// Mount activity log routes
+app.use('/api/activitylogs', activityLogRoutes);
 
 const PORT = process.env.PORT || 3000;
 

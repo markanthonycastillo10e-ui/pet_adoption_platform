@@ -75,3 +75,77 @@ exports.getAllApplications = async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve all applications.', error: error.message });
     }
 };
+
+/**
+ * Staff action: Approve an application
+ */
+exports.approveApplication = async (req, res) => {
+    try {
+        const { applicationId } = req.params;
+        const { staff_notes } = req.body || {};
+
+        const updatedApplication = await applicationRepository.updateStatus(applicationId, 'Approved', staff_notes);
+
+        if (!updatedApplication) {
+            return res.status(404).json({ message: 'Application not found.' });
+        }
+
+        res.status(200).json({ message: 'Application approved', application: updatedApplication });
+    } catch (error) {
+        console.error('Error approving application:', error);
+        res.status(500).json({ message: 'Failed to approve application.', error: error.message });
+    }
+};
+
+/**
+ * Staff action: Reject an application
+ */
+exports.rejectApplication = async (req, res) => {
+    try {
+        const { applicationId } = req.params;
+        const { staff_notes } = req.body || {};
+
+        const updatedApplication = await applicationRepository.updateStatus(applicationId, 'Rejected', staff_notes);
+
+        if (!updatedApplication) {
+            return res.status(404).json({ message: 'Application not found.' });
+        }
+
+        res.status(200).json({ message: 'Application rejected', application: updatedApplication });
+    } catch (error) {
+        console.error('Error rejecting application:', error);
+        res.status(500).json({ message: 'Failed to reject application.', error: error.message });
+    }
+};
+
+/**
+ * Staff action: Schedule an interview
+ */
+exports.scheduleInterview = async (req, res) => {
+    try {
+        const { applicationId } = req.params;
+        const { interview_date, interview_time, staff_notes } = req.body;
+
+        if (!interview_date || !interview_time) {
+            return res.status(400).json({ message: 'Interview date and time are required.' });
+        }
+
+        const updateData = {
+            status: 'Interview Scheduled',
+            interview_date: new Date(interview_date),
+            interview_time,
+            staff_notes: staff_notes || ''
+        };
+
+        const updatedApplication = await applicationRepository.updateApplication(applicationId, updateData);
+
+        if (!updatedApplication) {
+            return res.status(404).json({ message: 'Application not found.' });
+        }
+
+        res.status(200).json({ message: 'Interview scheduled', application: updatedApplication });
+    } catch (error) {
+        console.error('Error scheduling interview:', error);
+        res.status(500).json({ message: 'Failed to schedule interview.', error: error.message });
+    }
+};

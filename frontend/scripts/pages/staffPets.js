@@ -370,7 +370,6 @@ function readAddForm() {
   }
 
   if (!beforeImage) throw new Error('Before image is required');
-  if (!petWeight) throw new Error('Pet weight is required');
   if (!arrivalDate) throw new Error('Arrival date is required');
   if (!location) throw new Error('Location is required');
   if (!about) throw new Error('About / description is required');
@@ -390,7 +389,7 @@ function readAddForm() {
     pet_type,
     sex,
     age: document.getElementById('petAge').value,
-    weight: petWeight,
+    weight: petWeight ? parseFloat(petWeight) : null,
     arrival_date: arrivalDate,
     location,
     vaccinated: !!document.getElementById('petVaccinated').checked,

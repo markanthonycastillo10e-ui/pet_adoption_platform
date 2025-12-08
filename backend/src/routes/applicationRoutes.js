@@ -6,6 +6,12 @@ const router = express.Router();
 // Route for submitting a new application
 router.post('/submit', applicationController.submitApplication);
 
+// Staff action routes
+router.get('/', applicationController.getAllApplications);
+router.put('/:applicationId/approve', applicationController.approveApplication);
+router.put('/:applicationId/reject', applicationController.rejectApplication);
+router.put('/:applicationId/interview', applicationController.scheduleInterview);
+
 // Route to get all applications for a specific adopter
 router.get('/adopter/:adopterId', applicationController.getAdopterApplications);
 

@@ -97,6 +97,7 @@
             <a class="nav-link" href="/frontend/pages/staff/pets-page/staff-view-care-log.html" data-tab="care-log">Care Log</a>
         </li>
     </ul>
+
     
     <!-- BEFORE / AFTER IMAGES -->
     <div class="row mb-4">
@@ -160,10 +161,83 @@
             </div>
         </div>
     </div>
+
+    <!-- CARE LOG SECTION -->
+    <div class="bg-white p-4 rounded-4 shadow-sm mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Daily Care Log</h4>
+            <button class="btn btn-dark" id="addEntryBtn">+ Add Entry</button>
+        </div>
+
+        <div id="careLogList">
+            <!-- Care entries will be injected here -->
+            <p class="text-muted">No entries yet.</p>
+        </div>
+    </div>
+
+    <!-- ADD CARE ENTRY MODAL -->
+    <div class="modal fade" id="addCareEntryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0 rounded-4">
+
+          <header class="modal-header border-0">
+            <div>
+              <h5 class="modal-title fw-bold">Add Care Entry</h5>
+              <p class="text-muted mb-0">Log an activity for this pet</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </header>
+
+          <section class="modal-body">
+            <form id="addCareEntryForm">
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Title</label>
+                <input id="entryTitle" type="text" class="form-control form-control-lg" placeholder="e.g. Morning walk and play session" required>
+              </div>
+
+              <div class="mb-3 row">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Date</label>
+                  <input id="entryDate" type="date" class="form-control form-control-lg" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Staff / Volunteer</label>
+                  <input id="entryStaff" type="text" class="form-control form-control-lg" placeholder="Staff name">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Notes</label>
+                <textarea id="entryNotes" class="form-control form-control-lg" rows="3" placeholder="Notes about the activity"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Category</label>
+                <select id="entryCategory" class="form-select form-control-lg">
+                  <option selected value="Exercise">Exercise</option>
+                  <option value="Feeding">Feeding</option>
+                  <option value="Medication">Medication</option>
+                  <option value="Grooming">Grooming</option>
+                </select>
+              </div>
+
+            </form>
+          </section>
+
+          <footer class="modal-footer border-0 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-dark px-4" id="submitAddEntryBtn">Add Entry</button>
+          </footer>
+
+        </div>
+      </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/frontend/js/auth/auth.js"></script>
 <script src="/frontend/scripts/pages/staffViewPet.js" type="module"></script>
+<script type="module" src="/frontend/scripts/pages/staffViewCareLog.js"></script>
 </body>
 </html>

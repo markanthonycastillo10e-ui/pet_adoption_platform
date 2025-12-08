@@ -1,66 +1,70 @@
-const ActivityLog = require('../models/activityLogModel');
+const taskRepository = require('../repositories/taskRepository');
+const petRepository = require('../repositories/pet.repository');
+const volunteerRepository = require('../repositories/volunteerRepository');
 
-// @desc    Create a new task
-// @route   POST /api/tasks
-const createTask = async (req, res) => {
-  try {
-    const { title, description, type, category, priority, estimatedHours, points, dueDate, location } = req.body;
-    
-    const newTask = new ActivityLog({
-        title,
-        description,
-        type,
-        category,
-        priority,
-        estimatedHours,
-        points,
-        dueDate: new Date(dueDate), // Ensure it's a Date object
-        location
-    });
-
-    const createdTask = await newTask.save();
-    res.status(201).json(createdTask);
-  } catch (error) {
-    res.status(400).json({ message: 'Error creating task', error: error.message });
+class TaskController {
+  async getAll(req, res) {
+    try {
+      const tasks = await taskRepository.findAll();
+      res.json({ tasks });
+    } catch (err) {
+      console.error('Get tasks error:', err);
+      res.status(500).json({ message: 'Failed to get tasks', error: err.message });
+    }
   }
-};
 
-// @desc    Get all tasks
-// @route   GET /api/tasks
-const getTasks = async (req, res) => {
+  async getById(req, res) {
     try {
-        const tasks = await ActivityLog.find({}).populate('assignedTo', 'name').sort({ createdAt: -1 });
-        res.status(200).json(tasks);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching tasks', error: error.message });
+      const task = await taskRepository.findById(req.params.id);
+      if (!task) return res.status(404).json({ message: 'Task not found' });
+      res.json({ task });
+    } catch (err) {
+      console.error('Get task error:', err);
+      res.status(500).json({ message: 'Failed to get task', error: err.message });
     }
-};
+  }
 
-// @desc    Assign a volunteer to a task
-// @route   PUT /api/tasks/:id/assign
-const assignTask = async (req, res) => {
+  async create(req, res) {
     try {
-        const { volunteerId } = req.body;
-        const { id: taskId } = req.params;
+      // Validate pet exists
+      const pet = await petRepository.findById(req.body.pet_id);
+      if (!pet) return res.status(404).json({ message: 'Pet not found' });
 
-        if (!volunteerId) {
-            return res.status(400).json({ message: 'Volunteer ID is required.' });
-        }
+      // Validate volunteer exists if assigned
+      if (req.body.assigned_to) {
+        const volunteer = await volunteerRepository.findById(req.body.assigned_to);
+        if (!volunteer) return res.status(404).json({ message: 'Volunteer not found' });
+      }
 
-        const updatedTask = await ActivityLog.findByIdAndUpdate(
-            taskId,
-            { assignedTo: volunteerId, status: 'Assigned' },
-            { new: true, runValidators: true }
-        ).populate('assignedTo', 'name'); // Populate the volunteer's name
-
-        if (!updatedTask) {
-            return res.status(404).json({ message: 'Task not found.' });
-        }
-
-        res.status(200).json(updatedTask);
-    } catch (error) {
-        res.status(500).json({ message: 'Error assigning task', error: error.message });
+      const task = await taskRepository.create(req.body);
+      res.status(201).json({ message: 'Task created', task });
+    } catch (err) {
+      console.error('Create task error:', err);
+      res.status(500).json({ message: 'Failed to create task', error: err.message });
     }
-};
+  }
 
-module.exports = { createTask, getTasks, assignTask };
+  async update(req, res) {
+    try {
+      const updated = await taskRepository.updateById(req.params.id, req.body);
+      if (!updated) return res.status(404).json({ message: 'Task not found' });
+      res.json({ message: 'Task updated', task: updated });
+    } catch (err) {
+      console.error('Update task error:', err);
+      res.status(500).json({ message: 'Failed to update task', error: err.message });
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      const deleted = await taskRepository.deleteById(req.params.id);
+      if (!deleted) return res.status(404).json({ message: 'Task not found' });
+      res.json({ message: 'Task deleted' });
+    } catch (err) {
+      console.error('Delete task error:', err);
+      res.status(500).json({ message: 'Failed to delete task', error: err.message });
+    }
+  }
+}
+
+module.exports = new TaskController();

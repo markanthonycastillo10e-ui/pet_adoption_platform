@@ -84,11 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`${API_URL}/tasks`);
       if (!response.ok) throw new Error('Failed to fetch tasks');
-      const tasks = await response.json();
-      
+      const tasksResp = await response.json();
+
+      // Support multiple response shapes: either an array, or an object like { tasks: [...] }
+      const tasks = Array.isArray(tasksResp) ? tasksResp : (tasksResp.tasks || tasksResp.data || []);
+
       // Clear only dynamically loaded tasks
       tasksContainer.querySelectorAll('.task-card[data-task-id]').forEach(card => card.remove());
-      
+
       const allTasksHTML = tasks.map(renderTaskCard).join('');
       tasksContainer.insertAdjacentHTML('beforeend', allTasksHTML);
     } catch (error) {
@@ -116,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/tasks`, {
+      // POST to activity logs so staff-created tasks are stored in `activitylogs`
+      const response = await fetch(`${API_URL}/activitylogs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(taskData),
@@ -124,8 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!response.ok) throw new Error(`Server error: ${response.statusText}`);
       
-      const newTask = await response.json();
-      updateTaskCardUI(newTask);
+      const newTaskResp = await response.json();
+      // Backend may return { message, activity } or the created activity directly
+      const createdTask = newTaskResp.activity || newTaskResp;
+      updateTaskCardUI(createdTask);
 
       createTaskModal.hide();
     } catch (error) {
