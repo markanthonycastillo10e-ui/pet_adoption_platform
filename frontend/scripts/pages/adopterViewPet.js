@@ -37,7 +37,7 @@ async function loadPetDetails(id) {
 
 function populatePetDetails(pet) {
     // Header
-    document.title = `${pet.pet_name} - Pet Profile`;
+    document.title = `${pet.petname} - Pet Profile`;
     const petNameHeader = document.getElementById('petNameHeader');
     if (petNameHeader) petNameHeader.textContent = pet.pet_name;
 
