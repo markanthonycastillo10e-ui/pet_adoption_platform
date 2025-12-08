@@ -3,7 +3,8 @@ const BASE = 'http://localhost:3000/api/tasks';
 export async function getTasks() {
   const res = await fetch(BASE);
   if (!res.ok) throw new Error('Failed to fetch tasks');
-  return res.json();
+  const data = await res.json();
+  return Array.isArray(data) ? data : (data.tasks || data.data || []);
 }
 
 export async function getTask(id) {

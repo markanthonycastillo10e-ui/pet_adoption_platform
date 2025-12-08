@@ -1,5 +1,6 @@
 import { getTasks, createTask, updateTask, deleteTask } from '../utils/careTaskApi.js';
 import { getPets } from '../utils/staffPetsApi.js';
+import { getAvailableVolunteers } from '../utils/volunteersApi.js';
 
 let allPets = [];
 let allVolunteers = [];
@@ -14,19 +15,16 @@ async function loadPets() {
   }
 }
 
-// Mock volunteer loading - replace with actual API call when volunteer endpoint exists
 async function loadVolunteers() {
   try {
-    // TODO: Replace with actual volunteer fetch when API endpoint exists
-    // For now, using mock data
-    allVolunteers = [
-      { _id: '1', first_name: 'John', last_name: 'Doe' },
-      { _id: '2', first_name: 'Jane', last_name: 'Smith' },
-      { _id: '3', first_name: 'Alex', last_name: 'Johnson' }
-    ];
+    const res = await getAvailableVolunteers();
+    // API returns an array of volunteer documents
+    allVolunteers = res || [];
     populateVolunteerSelect();
   } catch (err) {
     console.error('Failed to load volunteers:', err);
+    allVolunteers = [];
+    populateVolunteerSelect();
   }
 }
 
@@ -94,6 +92,16 @@ function resetTaskForm() {
 document.addEventListener('DOMContentLoaded', async () => {
   await loadPets();
   await loadVolunteers();
+
+  // Wire top-level Add Task button to open the modal
+  const addTaskBtn = document.getElementById('addTaskBtn');
+  if (addTaskBtn) {
+    addTaskBtn.addEventListener('click', () => {
+      const modalEl = document.getElementById('addCareTaskModal');
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.show();
+    });
+  }
 
   // Handle form submission
   const form = document.getElementById('createCareTaskForm');

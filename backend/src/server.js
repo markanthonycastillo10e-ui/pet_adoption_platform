@@ -7,6 +7,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const authRoutes = require('./routes/authRoutes'); // Import auth routes
 const volunteerRoutes = require('./routes/volunteerRoutes'); // Import volunteer routes
+const activityLogRoutes = require('./routes/activityLogRoutes');
 
 const app = express();
 app.use(cors());
@@ -31,6 +32,9 @@ app.use('/api/applications', applicationRoutes);
 
 // Mount volunteer routes
 app.use('/api/volunteers', volunteerRoutes);
+
+// Mount activity log routes
+app.use('/api/activitylogs', activityLogRoutes);
 
 const PORT = process.env.PORT || 3000;
 
