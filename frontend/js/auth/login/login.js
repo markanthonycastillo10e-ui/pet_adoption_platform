@@ -124,6 +124,9 @@ async function handleLogin(userType, emailFieldId, passwordFieldId, messageDivId
                 localStorage.setItem('authToken', data.token || 'demo-token');
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 localStorage.setItem('userType', userType);
+                // Store the user ID for profile and other operations
+                localStorage.setItem('userId', user._id || user.id || '');
+                localStorage.setItem('userEmail', user.email || email);
                 
                 showMessage(messageDiv, 'Login successful! Redirecting...', 'success');
                 
@@ -148,6 +151,7 @@ async function handleLogin(userType, emailFieldId, passwordFieldId, messageDivId
         
         // Create demo user data
         const demoUser = {
+            _id: 'demo-' + Date.now(),
             id: 'demo-' + Date.now(),
             first_name: email.split('@')[0],
             last_name: 'User',
@@ -160,6 +164,8 @@ async function handleLogin(userType, emailFieldId, passwordFieldId, messageDivId
         localStorage.setItem('authToken', 'demo-token');
         localStorage.setItem('currentUser', JSON.stringify(demoUser));
         localStorage.setItem('userType', userType);
+        localStorage.setItem('userId', demoUser._id);
+        localStorage.setItem('userEmail', email);
         
         showMessage(messageDiv, 'Demo login successful! Redirecting...', 'success');
         

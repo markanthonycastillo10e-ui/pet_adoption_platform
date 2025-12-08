@@ -61,3 +61,46 @@
   margin-right: 12px;
 }
 
+/*DESIGN BUTTON FOR STAFF PROFILE*/
+
+    .edit-btn {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .edit-btn:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .save-btn {
+      background: #667eea;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    .save-btn:hover {
+      background: #764ba2;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .d-none {
+      display: none !important;
+    }
+

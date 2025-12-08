@@ -114,3 +114,126 @@
       padding-bottom: 0.5rem;
       border-bottom: 1px solid #dee2e6;
     }
+/*staff design for Staff profile*/
+    .staff-navbar-gradient {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .staff-profile-container {
+      max-width: 1200px;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-header-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .profile-pic-container {
+      flex-shrink: 0;
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 3px solid #667eea;
+    }
+
+    .profile-camera-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .profile-info {
+      flex-grow: 1;
+    }
+
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-role {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-right: 0.5rem;
+    }
+
+    .profile-member-since {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    .profile-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      color: #667eea;
+    }
+

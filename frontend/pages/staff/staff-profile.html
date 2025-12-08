@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Profile</title>
+  <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/frontend/css/base/general.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+</head>
+
+<body class="bg-light" data-required-role="staff">
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg staff-navbar-gradient navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="#">🐾 Staff Dashboard</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#staffNavbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="staffNavbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="/frontend/pages/staff/staff-dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link fw-medium" href="/frontend/pages/staff/staff-pets.html">Pets</a></li>
+          <li class="nav-item"><a class="nav-link fw-medium" href="/frontend/pages/staff/staff-messages.html">Messages</a></li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Management
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/frontend/pages/staff/staff-pet-assignment.html">Pet Assignment</a></li>
+              <li><a class="dropdown-item" href="#">Task Assignment</a></li>
+              <li><a class="dropdown-item" href="#">Care Tracking</a></li>
+              <li><a class="dropdown-item" href="#">Volunteers</a></li>
+            </ul>
+          </li>
+            <li class="nav-item me-lg-3">
+              <i class="fa-regular fa-bell text-white" style="font-size:1.1rem"></i>
+            </li>
+          <li class="nav-item me-lg-3 mt-2 mt-lg-0">
+            <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="staff-profile-img me-2" />
+            <div class="lh-1">
+              <div class="fw-bold text-white" id="navbarUserName"></div>
+              <div class="text-light small" id="navbarUserRole"></div>
+            </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" href="/frontend/pages/staff/staff-profile.html">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="container staff-profile-container">
+    <!-- Page Header -->
+    <div style="margin-bottom: 2rem;">
+      <h1 class="fw-bold mb-1">Account Center</h1>
+      <p class="text-muted">Manage your personal information and preferences</p>
+    </div>
+
+    <!-- Profile Header Section -->
+    <div class="profile-header-section">
+      <div class="profile-pic-container">
+        <div style="position: relative; width: fit-content;">
+          <img id="profilePic" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="Profile" class="profile-pic">
+          <button class="profile-camera-btn" type="button" id="changePhotoBtn" title="Change photo">
+            <i class="fas fa-camera"></i>
+          </button>
+          <input type="file" id="profileImageInput" class="d-none" accept="image/*">
+        </div>
+      </div>
+
+      <div class="profile-info">
+        <div class="profile-name" id="profileName">Loading...</div>
+        <span class="profile-role" id="profileRole">Staff Member</span>
+        <span class="profile-member-since" id="memberSince">Member since Loading...</span>
+
+        <!-- Stats Grid -->
+        <div class="stats-section">
+          <div class="stat-card">
+            <div class="stat-number" id="animalsHelpedCount">0</div>
+            <div class="stat-label">Animal Helped</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="adoptionsApprovedCount">0</div>
+            <div class="stat-label">Adoptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="serviceDuration">0</div>
+            <div class="stat-label">Your Service</div>
+          </div>
+        </div>
+
+        <!-- Edit Button -->
+        <div style="margin-top: 1.5rem;">
+          <button type="button" class="edit-btn" id="editProfileBtn">Edit Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="profile-section">
+      <div class="section-title">
+        <i class="fas fa-user"></i>
+        Information
+      </div>
+
+      <form id="profileForm">
+        <div class="info-grid">
+          <div class="info-item">
+            <label class="info-label">First name</label>
+            <div class="info-value" id="viewFirstName">Loading...</div>
+            <input type="text" class="info-input d-none" id="editFirstName" name="firstName">
+          </div>
+          <div class="info-item">
+            <label class="info-label">Middle name</label>
+            <div class="info-value" id="viewMiddleName">-</div>
+            <input type="text" class="info-input d-none" id="editMiddleName" name="middleName">
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label class="info-label">Last name</label>
+            <div class="info-value" id="viewLastName">Loading...</div>
+            <input type="text" class="info-input d-none" id="editLastName" name="lastName">
+          </div>
+          <div class="info-item">
+            <label class="info-label">Phone number</label>
+            <div class="info-value" id="viewPhone">Loading...</div>
+            <input type="tel" class="info-input d-none" id="editPhone" name="phone">
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label class="info-label">Email Address</label>
+            <div class="info-value" id="viewEmail">Loading...</div>
+            <input type="email" class="info-input d-none" id="editEmail" name="email" disabled>
+          </div>
+          <div class="info-item">
+            <label class="info-label">Address</label>
+            <div class="info-value" id="viewAddress">Loading...</div>
+            <input type="text" class="info-input d-none" id="editAddress" name="address">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label class="info-label">Bio</label>
+          <div class="info-value" id="viewBio">No bio yet.</div>
+          <textarea class="info-input d-none" id="editBio" name="bio" rows="4" style="resize: vertical;"></textarea>
+        </div>
+      </form>
+    </div>
+
+    <!-- Qualifications Section -->
+    <div class="profile-section">
+      <div class="section-title">
+        <i class="fas fa-certificate"></i>
+        Qualification
+      </div>
+      <div class="badge-grid" id="qualificationsList">
+        <span class="badge">DVM - TEXAS A&M University</span>
+        <span class="badge">Animal Behavior Certification</span>
+        <span class="badge">Shelter Medicine Certificate</span>
+      </div>
+    </div>
+
+    <!-- Responsibilities Section -->
+    <div class="profile-section">
+      <div class="section-title">
+        <i class="fas fa-briefcase"></i>
+        Responsibilities
+      </div>
+      <div class="badge-grid" id="responsibilitiesList">
+        <span class="badge">Medical Care</span>
+        <span class="badge">Staff Supervision</span>
+        <span class="badge">Adoption Approvals</span>
+        <span class="badge">Emergency Response</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons" id="actionButtons">
+      <button type="button" class="save-btn d-none" id="saveProfileBtn">Save Changes</button>
+      <button type="button" class="edit-btn d-none" id="cancelEditBtn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/frontend/js/auth/auth.js"></script>
+  <script type="module" src="/frontend/scripts/pages/staffProfile.js"></script>
+</body>
+</html>

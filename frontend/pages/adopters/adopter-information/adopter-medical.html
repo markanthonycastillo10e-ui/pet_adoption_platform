@@ -20,35 +20,37 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="adopterNav" data-required-role="adopter">
+    <div class="collapse navbar-collapse" id="adopterNav">
       <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item"><a class="nav-link text-white" href="../adopter-dashboard.html">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="../adopter-pet.html">Browse Pets</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="../adopter-message.html">Messages</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="../adopter-application.html">My Applications</a></li>
-        <li class="nav-item"><a class="nav-link text-white" href="../adopter-favorite.html">Favorites</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-pet.html">Browse Pets</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-message.html">Messages</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-application.html">My Applications</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="/frontend/pages/adopters/adopter-favorite.html">Favorites</a></li>
 
+        <!-- Notification -->
         <li class="nav-item mx-3 position-relative">
-          <img id="adopter-profile" src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+          <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
         </li>
 
+        <!-- Profile Dropdown (Clean version, no arrow) -->
         <li class="nav-item dropdown">
-          <a class="nav-link d-flex align-items-center text-white" href="#" data-bs-toggle="dropdown">
-            <img src="/frontend/assets/image/photo/BoyIcon.jpg" class="rounded-circle me-2" width="35" height="35">
+          <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img id="adopter-profile" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2 profile-image" width="35" height="35">
             <div class="lh-1">
               <div class="fw-bold text-white" id="navbarUserName"></div>
               <div class="text-light small" id="navbarUserRole"></div>
             </div>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end mt-2 shadow">
+          <ul class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="profileDropdown">
             <li class="dropdown-header">
               <strong id="dropdownUserName"></strong><br>
               <small class="text-muted" id="dropdownUserRole"></small>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../adopter-profile.html">Profile</a></li>
-            <li><a class="dropdown-item" href="../adopter-setting.html">Settings</a></li>
+            <li><a class="dropdown-item" href="adopter-profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="adopter-setting.html">Settings</a></li>
             <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Log out</a></li>
           </ul>
         </li>

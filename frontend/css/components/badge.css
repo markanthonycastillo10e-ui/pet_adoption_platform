@@ -16,3 +16,19 @@
     padding: 3px 8px;
     border-radius: 10px;
 }
+
+/*design badge for staff profile */
+  .badge-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      background: #667eea;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }

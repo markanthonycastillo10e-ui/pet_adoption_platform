@@ -30,3 +30,41 @@
       margin: 0 auto;
     }
     
+
+/*staff profile for design*/
+.info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .info-value {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .info-input {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .info-input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
