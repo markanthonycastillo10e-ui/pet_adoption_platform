@@ -90,39 +90,21 @@
 
 
   <section class="mb-4 p-4 border rounded-4 shadow-sm">
-    <h4 class="fw-bold mb-3">Vaccination Status</h4>
-
-    <div class="border rounded-3 p-3 mb-3 bg-light">
-      <h6 class="fw-bold mb-0">DHHP</h6>
-      <small class="text-muted">Last 1/20/2024 • Next due: 1/20/2025</small>
-      <div class="mt-1 small text-secondary">Dr Johny Sin</div>
+     <div class="bg-white p-4 rounded-4 shadow-sm mt-4">
+        <h4 class="fw-bold mb-3">Vaccination Status</h4>
+        <div id="vaccinationList">
+            <p class="text-muted">No vaccination records yet.</p>
+        </div>
     </div>
 
-    <div class="border rounded-3 p-3 bg-light">
-      <h6 class="fw-bold mb-0">Rabies</h6>
-      <small class="text-muted">Last 1/15/2024 • Next due: 12/15/2025</small>
-      <div class="mt-1 small text-secondary">Dr Johny Sin</div>
-    </div>
-  </section>
-
-  <section class="p-4 border rounded-4 shadow-sm">
-    <h4 class="fw-bold mb-3">Medical History</h4>
-
-    <div class="d-flex mb-4">
-      <div class="timeline-line"></div>
-      <div>
-        <h6 class="fw-bold mb-1">Initial Health Assessment</h6>
-        <small class="text-muted">1/15/2024 • Dr Johny Sin</small>
-        <p class="small mt-1">Healthy dog, some minor dental work needed</p>
-      </div>
-    </div>
-
-    <div class="d-flex">
-      <div class="timeline-line"></div>
-      <div>
-        <h6 class="fw-bold mb-1">DHPP vaccination</h6>
-        <small class="text-muted">1/20/2024 • Dr Johny Sin</small>
-      </div>
+    <!-- MEDICAL HISTORY -->
+    <div class="bg-white p-4 rounded-4 shadow-sm mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold mb-0">Medical History</h4>
+        </div>
+        <div id="medicalHistoryList">
+            <p class="text-muted">No records yet.</p>
+        </div>
     </div>
   </section>
 
@@ -131,5 +113,6 @@
 <script src="../../../bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/frontend/js/auth/auth.js"></script>
 <script type="module" src="/frontend/scripts/pages/adopterViewPet.js"></script>
+<script src="/frontend/scripts/pages/staffMedicalRecord.js" type="module"></script>
 </body>
 </html>
