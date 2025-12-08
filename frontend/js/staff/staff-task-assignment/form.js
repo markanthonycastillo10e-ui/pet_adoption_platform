@@ -112,15 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
       type: document.getElementById('taskType').value,
       category: document.getElementById('taskCategory').value,
       priority: document.getElementById('taskPriority').value,
-      estimatedHours: document.getElementById('taskEstimatedHours').value,
-      points: document.getElementById('taskPoints').value,
+      estimatedHours: parseFloat(document.getElementById('taskEstimatedHours').value),
+      points: parseInt(document.getElementById('taskPoints').value),
       dueDate: document.getElementById('taskDueDate').value,
       location: document.getElementById('taskLocation').value,
+      status: 'Unassigned'
     };
 
     try {
-      // POST to activity logs so staff-created tasks are stored in `activitylogs`
-      const response = await fetch(`${API_URL}/activitylogs`, {
+      // POST directly to /api/tasks to save in the tasks collection
+      const response = await fetch(`${API_URL}/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(taskData),
@@ -129,11 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!response.ok) throw new Error(`Server error: ${response.statusText}`);
       
       const newTaskResp = await response.json();
-      // Backend may return { message, activity } or the created activity directly
-      const createdTask = newTaskResp.activity || newTaskResp;
+      // Support both response shapes: { data: task }, { task: task }, or direct task object
+      const createdTask = newTaskResp.data || newTaskResp.task || newTaskResp;
       updateTaskCardUI(createdTask);
 
       createTaskModal.hide();
+      alert('Task created successfully!');
     } catch (error) {
       console.error('Error creating task:', error);
       alert('Failed to create task. Please check the console for details.');

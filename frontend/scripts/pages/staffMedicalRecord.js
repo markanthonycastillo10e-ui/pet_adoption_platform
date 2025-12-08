@@ -1,6 +1,5 @@
-import { createActivityLog, getActivityLogsForPet } from '../utils/activityLogsApi.js';
+import { createMedicalRecord, getMedicalRecordsByPet } from '../utils/medicalRecordApi.js';
 
-// This module wires the Add Record button and modal on staff-view-medical.html
 document.addEventListener('DOMContentLoaded', async () => {
   const addBtn = document.getElementById('addRecordBtn');
   const modalEl = document.getElementById('addMedicalRecordModal');
@@ -11,31 +10,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const bsModal = modalEl ? bootstrap.Modal.getOrCreateInstance(modalEl) : null;
 
-  // Attempt to read current pet id from page (if staffViewPet.js sets it)
-  const petId = window.currentPetId || document.body.dataset.petId || null;
+  // Get pet ID from URL or window variable
+  const petId = window.currentPetId || document.body.dataset.petId || new URLSearchParams(window.location.search).get('id');
 
   async function refreshMedicalData() {
-    if (!petId) return;
+    if (!petId) {
+      console.warn('Pet ID not found');
+      return;
+    }
+
     try {
-      const logs = await getActivityLogsForPet(petId);
-      if (!logs || logs.length === 0) {
+      const records = await getMedicalRecordsByPet(petId);
+      
+      if (!records || records.length === 0) {
         medicalList.innerHTML = '<p class="text-muted">No records yet.</p>';
         vaccinationList.innerHTML = '<p class="text-muted">No vaccination records yet.</p>';
         return;
       }
 
       // Separate vaccination from other medical records
-      const vaccinations = logs.filter(l => l.type === 'Vaccination' || l.title === 'Vaccination');
-      const medicalRecords = logs.filter(l => l.type !== 'Vaccination' && l.title !== 'Vaccination');
+      const vaccinations = records.filter(r => r.recordType === 'Vaccination');
+      const medicalRecords = records.filter(r => r.recordType !== 'Vaccination');
 
       // Display vaccination cards
       if (vaccinations.length === 0) {
         vaccinationList.innerHTML = '<p class="text-muted">No vaccination records yet.</p>';
       } else {
         vaccinationList.innerHTML = vaccinations.map(v => {
-          const dueDate = new Date(v.dueDate);
+          const vDate = new Date(v.date);
           const today = new Date();
-          const isOverdue = dueDate < today;
+          const isOverdue = vDate < today;
           const statusBadge = isOverdue ? '<span class="badge bg-danger">Overdue</span>' : '<span class="badge bg-warning">Due</span>';
           
           return `
@@ -43,9 +47,9 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start">
                   <div>
-                    <h6 class="card-title fw-bold mb-1">${v.title || 'Vaccination'}</h6>
-                    <p class="card-text small text-muted mb-0">Due: ${dueDate.toLocaleDateString()}</p>
-                    <p class="card-text small text-muted mb-0">Veterinarian: ${v.location || 'Not specified'}</p>
+                    <h6 class="card-title fw-bold mb-1">${v.recordType}</h6>
+                    <p class="card-text small text-muted mb-0">Date: ${vDate.toLocaleDateString()}</p>
+                    <p class="card-text small text-muted mb-0">Veterinarian: ${v.veterinarian || 'Not specified'}</p>
                   </div>
                   <div>${statusBadge}</div>
                 </div>
@@ -59,56 +63,69 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (medicalRecords.length === 0) {
         medicalList.innerHTML = '<p class="text-muted">No records yet.</p>';
       } else {
-        medicalList.innerHTML = medicalRecords.map(l => {
-          const recordDate = new Date(l.dueDate);
-          const typeBadge = l.type ? `<span class="badge bg-secondary">${l.type}</span>` : '';
+        medicalList.innerHTML = medicalRecords.map(r => {
+          const rDate = new Date(r.date);
           return `
             <div class="mb-3 border rounded-3 p-3" style="border-left: 4px solid #007bff !important;">
               <div class="d-flex justify-content-between align-items-start">
                 <div class="flex-grow-1">
-                  <strong>${l.title}</strong>
+                  <strong>${r.recordType}</strong>
                   <div class="small text-muted mt-1">
-                    ${recordDate.toLocaleDateString()} • ${l.location || 'Not specified'}
+                    ${rDate.toLocaleDateString()} • ${r.veterinarian || 'Not specified'}
                   </div>
-                  ${l.description ? `<div class="mt-2 text-muted">${l.description}</div>` : ''}
+                  ${r.description ? `<div class="mt-2 text-muted">${r.description}</div>` : ''}
+                  ${r.notes ? `<div class="mt-2 text-secondary"><small><strong>Notes:</strong> ${r.notes}</small></div>` : ''}
                 </div>
-                ${typeBadge ? `<div>${typeBadge}</div>` : ''}
+                <span class="badge bg-secondary">${r.recordType}</span>
               </div>
             </div>
           `;
         }).join('');
       }
     } catch (err) {
-      console.error('Failed to load medical logs:', err);
+      console.error('Failed to load medical records:', err);
+      medicalList.innerHTML = '<p class="text-danger">Failed to load records</p>';
     }
   }
 
+  // Wire Add Record button
   if (addBtn && bsModal) {
-    addBtn.addEventListener('click', () => bsModal.show());
+    addBtn.addEventListener('click', () => {
+      bsModal.show();
+    });
   }
 
+  // Wire form submission
   if (submitBtn && form) {
-    submitBtn.addEventListener('click', async () => {
+    submitBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
 
       const payload = {
+        pet_id: petId,
         recordType: document.getElementById('recordType').value,
         date: document.getElementById('recordDate').value,
         description: document.getElementById('recordDescription').value,
         veterinarian: document.getElementById('recordVeterinarian').value,
-        notes: document.getElementById('recordNotes').value,
-        pet_id: petId
+        notes: document.getElementById('recordNotes').value
       };
 
       try {
-        await createActivityLog(payload);
+        await createMedicalRecord(payload);
+        
+        // Hide modal and reset form
         if (bsModal) bsModal.hide();
         form.reset();
+        
+        // Refresh the medical data display
         await refreshMedicalData();
-        alert('Medical record added');
+        
+        // Show success message
+        alert('Medical record added successfully!');
       } catch (err) {
         console.error('Failed to create medical record:', err);
         alert('Failed to add record: ' + err.message);
@@ -116,6 +133,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Refresh when page loads
+  // Load records on page load
   refreshMedicalData();
+
+  // Refresh every 5 seconds to show new data from other tabs
+  setInterval(() => {
+    refreshMedicalData();
+  }, 5000);
 });
