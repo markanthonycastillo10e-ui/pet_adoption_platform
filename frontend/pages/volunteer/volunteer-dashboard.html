@@ -6,50 +6,71 @@
   <title>Volunteer Dashboard</title>
   <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/frontend/css/base/general.css">
-
 </head>
 
-<body class="bg-light" data-required-role="volunteer">
+<body class="bg-light">
 
- 
-  <nav class="navbar navbar-expand-lg volunteer-navbar">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg volunteer-navbar" style="background-color: #41b883;">
     <div class="container">
       <a class="navbar-brand fw-bold text-white" href="#">🐾 Dashboard</a>
-
+      
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#volunteerNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-
+      
       <div class="collapse navbar-collapse" id="volunteerNav">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link active" href="volunteer-dashboard.html">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="volunteer-pets.html">Browse Pets</a></li>
-          <li class="nav-item"><a class="nav-link" href="volunteer-message.html">Messages</a></li>
-          <li class="nav-item"><a class="nav-link" href="volunteer-schedule.html">My Schedule</a></li>
-          <li class="nav-item"><a class="nav-link" href="volunteer-task.html">Tasks</a></li>
-          <li class="nav-item mx-3">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="volunteer-dashboard.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="volunteer-pets.html">Browse Pets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="volunteer-messages.html">Messages</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="volunteer-schedule.html">My Schedule</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white " href="volunteer-tasks.html">Tasks</a>
+          </li>
+          <li class="nav-item mx-3 position-relative">
             <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
           </li>
-          <li class="nav-item d-flex align-items-center">
-            <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="volunteer-profile-img me-2" />
-            <div class="text-white small lh-1">
-              <div id="volunteerNavbarName"></div>
-              <div id="volunteerNavbarRole"></div>
-            </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2 profile-image" width="35" height="35">
+              <div class="lh-1">
+                <div class="fw-bold text-white" id="volunteerNavbarName">Daks Pangilinan</div>
+                <div class="text-light small" id="volunteerNavbarRole">Volunteer</div>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="profileDropdown">
+              <li class="dropdown-header">
+                <strong>Daks Pangilinan</strong><br>
+                <small class="text-muted">Volunteer</small>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="volunteer-profile.html">Account Center</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Log out</a></li>
+            </ul>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-
+  <!-- Main Content -->
   <div class="container my-4">
     <div class="volunteer-welcome-box p-4 mb-4">
       <h4 class="fw-bold mb-1" id="volunteerWelcomeMessage">Thank you for your Service</h4>
       <p class="mb-0" id="volunteerSubtitle">You've made a difference in 47 pets' lives this month</p>
     </div>
 
-   
+    <!-- Statistics -->
     <div class="row mt-4 g-3">
       <div class="col-md-3 col-sm-6">
         <div class="volunteer-stat-card p-4">
@@ -81,12 +102,11 @@
       </div>
     </div>
 
-
+    <!-- Schedule and Performance -->
     <div class="row mt-4 g-4">
       <div class="col-md-6">
         <div class="bg-white border rounded-4 p-4">
           <h5 class="fw-bold mb-3">Today's Schedule</h5>
-
           <div class="volunteer-schedule-item" id="scheduleItem1">
             <div class="fw-semibold">Dog Walking - Morning Shift</div>
             <div class="volunteer-schedule-time">9:00 AM - 11:00 AM</div>
@@ -95,7 +115,6 @@
             <div class="fw-semibold">Cat Socialization</div>
             <div class="volunteer-schedule-time">2:00 PM - 4:00 PM</div>
           </div>
-
           <button class="volunteer-view-btn mt-3" id="viewFullScheduleBtn">View Full Schedule</button>
         </div>
       </div>
@@ -104,7 +123,6 @@
         <div class="bg-white border rounded-4 p-4">
           <h5 class="fw-bold mb-3">Performance Summary</h5>
           <p class="text-muted small mb-3">Your recent volunteer activity overview</p>
-
           <ul class="list-unstyled mb-3" id="performanceList">
             <li class="mb-2">✔ Completed 3 dog walks this week</li>
             <li class="mb-2">✔ Assisted 2 adoptions successfully</li>
@@ -115,12 +133,9 @@
     </div>
   </div>
 
+  <!-- Scripts -->
   <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
-   <script src="/frontend/js/auth/auth.js"></script>
-
-
-  <script>
- 
-  </script>
+  <script src="/frontend/js/volunteer-dashboard.js"></script>
+  <script src="/frontend/js/volunteer/volunteer-dashboard-stats.js"></script>
 </body>
 </html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer Profile</title>
+  <link rel="stylesheet" href="/frontend/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/frontend/css/base/general.css" />
+<link rel="stylesheet" href="/frontend/css/utils/volunteer-prof.css">
+</head>
+
+<body class="bg-light">
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg volunteer-navbar" style="background-color: #41b883;">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-white" href="#">🐾 Dashboard</a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#volunteerNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="volunteerNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link text-white" href="volunteer-dashboard.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="volunteer-pets.html">Browse Pets</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="volunteer-messages.html">Messages</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="volunteer-schedule.html">My Schedule</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="volunteer-tasks.html">Tasks</a></li>
+
+          <!-- Notification -->
+          <li class="nav-item mx-3 position-relative">
+            <img src="/frontend/assets/fonts/icon/bell.png" alt="bell" width="22" />
+          </li>
+
+          <!-- Profile Dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link d-flex align-items-center text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img id="navbarProfilePic" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="profile" class="rounded-circle me-2" width="35" height="35">
+              <div class="lh-1">
+                <div class="fw-bold text-white" id="navbarUserName">Daks Pangilinan</div>
+                <div class="text-light small" id="navbarUserRole">Volunteer</div>
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="profileDropdown">
+              <li class="dropdown-header">
+                <strong id="dropdownUserName">Daks Pangilinan</strong><br>
+                <small class="text-muted" id="dropdownUserRole">Volunteer</small>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="account-center.html">Account Center</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item text-danger" href="/frontend/pages/login-form.html">Log out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="container my-4 volunteer-profile-container">
+    <!-- Profile Header -->
+    <div class="volunteer-profile-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="fw-bold mb-1">Account Center</h1>
+          <p class="mb-0">Manage your personal information and preferences</p>
+        </div>
+        <div id="profileActionButtons">
+          <button class="btn volunteer-profile-edit-btn" id="editProfileBtn">Edit Profile</button>
+          <button class="btn btn-secondary d-none" id="cancelBtn">Cancel</button>
+          <button class="btn volunteer-profile-edit-btn d-none" id="saveChangesBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+
+    <form id="profileForm">
+      <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-md-4">
+          <!-- Profile Picture Section -->
+          <div class="volunteer-profile-section text-center">
+            <div class="profile-pic-wrapper">
+              <img id="profilePic" src="/frontend/assets/image/photo/BoyIcon.jpg" alt="Profile Picture" class="profile-pic-large">
+              <div id="" class="profile-pic-upload-overlay d-none" style="cursor: pointer;">
+              </div>
+              <input type="file" id="profileImageInput" class="d-none" accept="image/*">
+            </div>
+            <div class="mt-3">
+              <h4 class="fw-bold" id="profileDisplayName">Daks Pangilinan</h4>
+              <div class="volunteer-stat-item mb-2">
+                <span class="volunteer-stat-number" id="statHours">156</span>
+                <span class="volunteer-stat-label">Hours</span>
+              </div>
+              <p class="text-muted" id="memberSince">Member since Sept 1 2025</p>
+            </div>
+          </div>
+
+          <!-- Stats Section -->
+          <div class="volunteer-profile-section">
+            <h5 class="volunteer-profile-section-title">Volunteer Stats</h5>
+            <div class="volunteer-stats-section">
+              <div class="volunteer-stat-item">
+                <span class="volunteer-stat-number" id="statTasks">87</span>
+                <span class="volunteer-stat-label">Tasks</span>
+              </div>
+              <div class="volunteer-stat-item">
+                <span class="volunteer-stat-number" id="statPets">23</span>
+                <span class="volunteer-stat-label">Pets Helped</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Section - Hidden by default, shows in edit mode -->
+          <div class="volunteer-profile-section volunteer-password-section" id="passwordSection">
+            <h5 class="volunteer-profile-section-title">Password</h5>
+            <div class="volunteer-password-input-group">
+              <input type="password" class="volunteer-password-input" id="currentPassword" placeholder="Current Password">
+              <button type="button" class="volunteer-toggle-password" data-target="currentPassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="volunteer-password-input-group">
+              <input type="password" class="volunteer-password-input" id="newPassword" placeholder="New Password">
+              <button type="button" class="volunteer-toggle-password" data-target="newPassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="volunteer-password-input-group">
+              <input type="password" class="volunteer-password-input" id="confirmPassword" placeholder="Confirm New Password">
+              <button type="button" class="volunteer-toggle-password" data-target="confirmPassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <div class="volunteer-password-hint">
+              Password must be at least 8 characters long
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-8">
+          <!-- Information Section -->
+          <div class="volunteer-profile-section">
+            <h5 class="volunteer-profile-section-title">Information</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="volunteer-profile-info-item">
+                  <label class="volunteer-profile-info-label">First name</label>
+                  <div class="volunteer-profile-info-value" id="viewFirstName">Daks</div>
+                  <input type="text" class="form-control d-none" id="editFirstName" name="first_name">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="volunteer-profile-info-item">
+                  <label class="volunteer-profile-info-label">Last name</label>
+                  <div class="volunteer-profile-info-value" id="viewLastName">Pangilinan</div>
+                  <input type="text" class="form-control d-none" id="editLastName" name="last_name">
+                </div>
+              </div>
+            </div>
+
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Email Address</label>
+              <div class="volunteer-profile-info-value" id="viewEmail">Daksewan09e@gmail.com</div>
+              <input type="email" class="form-control d-none" id="editEmail" name="email" disabled>
+            </div>
+
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Phone number</label>
+              <div class="volunteer-profile-info-value" id="viewPhone">+6399 8842 845</div>
+              <input type="tel" class="form-control d-none" id="editPhone" name="phone">
+            </div>
+
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Address</label>
+              <div class="volunteer-profile-info-value" id="viewAddress">123 Asawa ni Marie St jude Pampanga</div>
+              <textarea class="form-control d-none" id="editAddress" name="address" rows="3"></textarea>
+            </div>
+
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Bio</label>
+              <div class="volunteer-profile-info-value" id="viewBio">
+                Dedicated volunteer with experience in animal care and rehabilitation. Passionate about helping shelter animals find their forever homes.
+              </div>
+              <textarea class="form-control d-none" id="editBio" name="bio" rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- Skills & Expertise Section -->
+          <div class="volunteer-profile-section">
+            <h5 class="volunteer-profile-section-title">Skills & Expertise</h5>
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Skills</label>
+              <div class="volunteer-tags-container" id="viewSkills">
+                <div class="volunteer-tag">Dog Walking</div>
+                <div class="volunteer-tag">Cat Socialization</div>
+                <div class="volunteer-tag">Administrative Support</div>
+                <div class="volunteer-tag">Event Planning</div>
+              </div>
+              <textarea class="volunteer-tags-input d-none" id="editSkills" placeholder="Enter skills separated by commas (e.g., Dog Walking, Cat Socialization)"></textarea>
+            </div>
+          </div>
+
+          <!-- Availability Section -->
+          <div class="volunteer-profile-section">
+            <h5 class="volunteer-profile-section-title">Availability</h5>
+            <div class="volunteer-profile-info-item">
+              <label class="volunteer-profile-info-label">Available Times</label>
+              <div class="volunteer-tags-container" id="viewAvailability">
+                <div class="volunteer-tag">Weekends</div>
+                <div class="volunteer-tag">Evening Shifts</div>
+                <div class="volunteer-tag">Emergency Response</div>
+              </div>
+              <textarea class="volunteer-tags-input d-none" id="editAvailability" placeholder="Enter availability separated by commas (e.g., Weekends, Evening Shifts)"></textarea>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Message Div -->
+  <div id="profileMessage" class="alert d-none" style="position: fixed; top: 80px; right: 20px; z-index: 1050;"></div>
+
+  <!-- Load Bootstrap JavaScript only once -->
+  <script src="/frontend/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+  
+  <script src="/frontend/scripts/pages/volunteer-prof.js">
+  
+  </script>
+</body>
+</html>
