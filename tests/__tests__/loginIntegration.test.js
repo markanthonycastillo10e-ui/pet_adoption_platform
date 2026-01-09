@@ -1,18 +1,26 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app =require('../../backend/server');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const Adopter = require('../../backend/src/models/adopter');
 const Staff = require('../../backend/src/models/staff');
 const Volunteer = require('../../backend/src/models/volunteer');
 
+let server;
+let mongod;
+let app;
+
 describe('Login Integration Tests', () => {
     let server;
 
-    // Setup: Connect to a test database and start the server
+    // Setup: Start in-memory MongoDB and start the server
     beforeAll(async () => {
-        const testMongoURI = process.env.MONGODB_URI_TEST || 'mongodb://localhost:27017/stray_pets_adoption_test_login';
-        await mongoose.connect(testMongoURI);
-        server = app.listen(3002); // Use a different port to avoid conflicts
+        mongod = await MongoMemoryServer.create();
+        const uri = mongod.getUri();
+        process.env.MONGO_URI = uri;
+        // require server after setting env so it picks up URI
+        const serverModule = require('../../backend/src/server');
+        app = serverModule.app;
+        server = await serverModule.startServer();
     });
 
     // Teardown: Close the server and disconnect from the database
@@ -21,6 +29,7 @@ describe('Login Integration Tests', () => {
             server.close();
         }
         await mongoose.disconnect();
+        if (mongod) await mongod.stop();
     });
 
     // Before each test, clear the database and create test users

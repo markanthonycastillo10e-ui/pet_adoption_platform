@@ -49,17 +49,48 @@ app.use('/api/medical', medicalRecordRoutes);
 // Mount staff routes
 app.use('/api/staff', staffRoutes);
 
+// Lightweight health endpoint to check server + DB status
+app.get('/api/health', async (req, res) => {
+  try {
+    const conn = db.getConnectionStatus();
+    const health = await db.healthCheck();
+    res.json({
+      server: 'ok',
+      db: conn,
+      dbHealth: health
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'health check failed', details: err.message });
+  }
+});
+
+// Serve frontend static files so the backend can host the UI as well.
+const path = require('path');
+const frontendPath = path.resolve(__dirname, '..', '..', 'frontend');
+app.use(express.static(frontendPath));
+
+// If the request doesn't start with /api, serve the frontend's index.html
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api')) return next();
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
 const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
     await db.connect(); // Use your database class to connect
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
+    return server;
   } catch (error) {
     console.error('Failed to start server:', error);
   }
 }
+// Only start the server when this file is run directly
+if (require.main === module) {
+  startServer();
+}
 
-startServer();
+module.exports = { app, startServer };

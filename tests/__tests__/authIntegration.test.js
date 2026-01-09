@@ -1,20 +1,24 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../../backend/server');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const Adopter = require('../../backend/src/models/adopter');
 const Staff = require('../../backend/src/models/staff');
 const Volunteer = require('../../backend/src/models/volunteer');
+
+let server;
+let mongod;
+let app;
 
 describe('Auth Integration Tests - Database Insertion', () => {
   let server;
 
   beforeAll(async () => {
-    // Connect to test database
-    const testMongoURI = process.env.MONGODB_URI_TEST || 'mongodb://localhost:27017/stray_pets_adoption_test';
-    await mongoose.connect(testMongoURI);
-
-    // Start the server for integration testing
-    server = app.listen(3001);
+    mongod = await MongoMemoryServer.create();
+    const uri = mongod.getUri();
+    process.env.MONGO_URI = uri;
+    const serverModule = require('../../backend/src/server');
+    app = serverModule.app;
+    server = await serverModule.startServer();
   });
 
   afterAll(async () => {
@@ -22,6 +26,7 @@ describe('Auth Integration Tests - Database Insertion', () => {
       server.close();
     }
     await mongoose.disconnect();
+    if (mongod) await mongod.stop();
   });
 
   beforeEach(async () => {

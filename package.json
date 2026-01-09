@@ -1,6 +1,16 @@
 {
+  "scripts": {
+    "test": "jest",
+    "test:unit": "jest tests/__tests__/authService.test.js --runInBand"
+  },
   "devDependencies": {
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
+    "jest-environment-jsdom": "^29.7.0",
+    "mongodb-memory-server": "^8.11.0",
+    "supertest": "^6.3.3",
+    "mongoose": "^7.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5"
   }
 }
